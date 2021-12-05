@@ -1,25 +1,11 @@
-
 services:
-  server:
-    build: .
-    ports:
-      - ${PORT}:${PORT}
-    networks:
-      - omega-backup
-    environment:
-      - PORT=${PORT}
-    expose:
-      - ${PORT}
-    depends_on:
-      - db
   db:
+    container_name: omega_backup
     image: mongo
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=omega-backup
+      - MONGO_INITDB_ROOT_USERNAME=omegaBackup
       - MONGO_INITDB_ROOT_PASSWORD=1234
+    ports:
+      - 27017:27017
     expose:
       - 27017
-  
-networks:
-  omega-backup: 
-    driver: bridge
