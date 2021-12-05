@@ -17,6 +17,7 @@ class FileSystem {
 		if (!this.primaryDrives.length) {
 			if (this.operationalDrives.length) {
 				this.primaryDrives = [this.operationalDrives[0]];
+				this.operationalDrives.shift();
 			} else {
 				console.log("no useable drives found");
 				process.exit(1);
@@ -133,9 +134,7 @@ class FileSystem {
 	}
 	createUser(name: string, id: string): void {
 		const matches = name.match(allowedCharacterRegex);
-		if (matches) {
-			this.createFolder(id + "_" + matches.join("-"));
-		}
+		this.createFolder(id + "_" + (matches ? matches.join("-") : ""));
 	}
 }
 

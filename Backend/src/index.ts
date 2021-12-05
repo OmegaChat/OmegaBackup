@@ -1,6 +1,9 @@
 import fastify from "fastify";
 import { getVolumes } from "./utils/getVolumes";
 import applyRoutes from "./routes";
+import db from "./db";
+
+db;
 
 const app = fastify();
 
