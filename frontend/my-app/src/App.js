@@ -7,6 +7,7 @@ import Default from './template/default'
 import Welcome from './template/view/welcome';
 import Signin from './template/view/signin';
 import Signup from './template/view/signup';
+import Plans from './template/view/plans';
 
 function App(props) {
   return (
@@ -14,7 +15,7 @@ function App(props) {
         {
           props.view.map((e) => {
             // return <Default media={[darkIcon, lightIcon]}></Default>;
-            return <Signup></Signup>;
+            return <Plans></Plans>;
           })
         }
     </div>
