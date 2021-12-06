@@ -9,6 +9,46 @@ const buildPath = (volume: string, path: string) =>
 class FileSystem {
 	private operationalDrives: string[] = [];
 	private primaryDrives: string[] = [];
+	private optimalDriveArray: string[] = [];
+	private calculateOptimalDriveArray(): Promise<number> {
+		const speeds: { drive: string; speed: number }[] = [];
+		return new Promise((res) => {
+			this.primaryDrives.forEach((drive) => {
+				fs.writeFile(buildPath(drive, ".omega-speedtest"), "run", (err) => {
+					if (err) {
+						console.log(err);
+					}
+					const start = new Date();
+					fs.readFile(buildPath(drive, ".omega-speedtest"), (err, _) => {
+						if (err) {
+							console.log(err);
+						}
+						const end = new Date();
+						speeds.push({ drive, speed: end.getTime() - start.getTime() });
+						if (speeds.length === this.primaryDrives.length) {
+							let total = 0;
+							speeds.forEach((speed) => {
+								total += speed.speed;
+							});
+							const average = total / speeds.length;
+							const optimalArray: string[] = [];
+							speeds.forEach((speed) => {
+								let times = Math.round(speed.speed / average);
+								if (times > 0) {
+									times = 1;
+								}
+								for (let i = 0; i < times; i++) {
+									optimalArray.push(speed.drive);
+								}
+							});
+							this.optimalDriveArray = optimalArray;
+						}
+						res(end.getTime() - start.getTime());
+					});
+				});
+			});
+		});
+	}
 	private latestDriveBackup: number = 0;
 	private getWritableDrives(): string[] {
 		return this.primaryDrives.concat(this.operationalDrives);
@@ -23,6 +63,7 @@ class FileSystem {
 				process.exit(1);
 			}
 		}
+		this.calculateOptimalDriveArray();
 		console.log("Primary drives:", this.primaryDrives.join(", "));
 	}
 	constructor() {
@@ -135,6 +176,7 @@ class FileSystem {
 	createUser(name: string, id: string): void {
 		const matches = name.match(allowedCharacterRegex);
 		this.createFolder(id + "_" + (matches ? matches.join("-") : ""));
+		this.optimalDriveArray;
 	}
 }
 
