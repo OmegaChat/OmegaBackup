@@ -10,6 +10,11 @@ class FileSystem {
 	private operationalDrives: string[] = [];
 	private primaryDrives: string[] = [];
 	private optimalDriveArray: string[] = [];
+	private getRandomDrive(): string {
+		return this.primaryDrives[
+			Math.floor(Math.random() * this.primaryDrives.length)
+		];
+	}
 	private calculateOptimalDriveArray(): Promise<number> {
 		const speeds: { drive: string; speed: number }[] = [];
 		return new Promise((res) => {
@@ -151,16 +156,13 @@ class FileSystem {
 		});
 	}
 	private updateLastBackup(drive: string): void {
+		const now = new Date().getTime().toString();
 		if (this.primaryDrives.includes(drive)) {
-			fs.writeFile(
-				buildPath(drive, "/.omega_lastbackup"),
-				new Date().toString(),
-				(err) => {
-					if (err) {
-						console.log(err);
-					}
+			fs.writeFile(buildPath(drive, "/.omega_lastbackup"), now, (err) => {
+				if (err) {
+					console.log(err);
 				}
-			);
+			});
 		}
 	}
 	private createFolder(path: string): void {
@@ -173,10 +175,32 @@ class FileSystem {
 			});
 		});
 	}
+	private writeFile(path: string, data: string): void {
+		this.getWritableDrives().forEach((drive) => {
+			fs.writeFile(buildPath(drive, path), data, (err) => {
+				if (err) {
+					console.log(err);
+				}
+				this.updateLastBackup(drive);
+			});
+		});
+	}
+	public readFile(path: string): Promise<{ found: boolean; data: string }> {
+		return new Promise((res) => {
+			fs.readFile(buildPath(this.getRandomDrive(), path), (err, data) => {
+				if (err) {
+					res({ found: false, data: "" });
+				} else {
+					res({ found: true, data: data.toString() });
+				}
+			});
+		});
+	}
 	createUser(name: string, id: string): void {
 		const matches = name.match(allowedCharacterRegex);
 		this.createFolder(id + "_" + (matches ? matches.join("-") : ""));
 		this.optimalDriveArray;
+		this.writeFile;
 	}
 }
 
