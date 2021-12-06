@@ -1,10 +1,26 @@
 import fs from "fs";
-import { getVolumes, getFiles } from "./getVolumes";
+import { getVolumes, getFiles, getFolders } from "./getVolumes";
 
 const allowedCharacterRegex = /[A-Za-z]+/g;
 
+const makePath = (path: string) =>
+	(path[0] === "/" ? "" : "/") + replaceAll(path, "..", "");
+
+const replaceAll = (str: string, find: string, replace: string) => {
+	return str.split(find).join(replace);
+};
+
 const buildPath = (volume: string, path: string) =>
-	"/Volumes/" + volume + "/" + path;
+	"/Volumes/" + volume + "/" + replaceAll(path, "..", "");
+
+const genUserFolder = (id: string, name: string) => {
+	const matches = name.match(allowedCharacterRegex);
+	if (matches && matches.length) {
+		return id + "-" + matches.join("-");
+	} else {
+		return id;
+	}
+};
 
 class FileSystem {
 	private operationalDrives: string[] = [];
@@ -177,6 +193,16 @@ class FileSystem {
 			});
 		});
 	}
+	public writeUserFile(
+		id: string,
+		name: string,
+		path: string,
+		data: string
+	): void {
+		this.generateFolderPath(genUserFolder(id, name) + makePath(path), () => {
+			this.writeFile(genUserFolder(id, name) + makePath(path), data);
+		});
+	}
 	private writeFile(path: string, data: string): void {
 		this.getWritableDrives().forEach((drive) => {
 			fs.writeFile(buildPath(drive, path), data, (err) => {
@@ -186,6 +212,59 @@ class FileSystem {
 				this.updateLastBackup(drive);
 			});
 		});
+	}
+	private createFolderPathRecursively(
+		initialPath: string,
+		parts: string[],
+		rapidCreate: boolean,
+		callback: () => void
+	): void {
+		if (parts.length) {
+			if (rapidCreate) {
+				this.createFolder(initialPath + "/" + parts[0]);
+				parts.shift();
+				this.createFolderPathRecursively(
+					initialPath + "/" + parts[0],
+					parts,
+					rapidCreate,
+					callback
+				);
+			} else {
+				getFolders(initialPath).then((folders) => {
+					if (folders.includes(parts[0])) {
+						parts.shift();
+						this.createFolderPathRecursively(
+							initialPath + "/" + parts[0],
+							parts,
+							rapidCreate,
+							callback
+						);
+					} else {
+						this.createFolder(initialPath + "/" + parts[0]);
+						parts.shift();
+						this.createFolderPathRecursively(
+							initialPath + "/" + parts[0],
+							parts,
+							true,
+							callback
+						);
+					}
+				});
+			}
+		} else {
+			callback();
+		}
+	}
+	private generateFolderPath(path: string, callback: () => void) {
+		// path example: 2897349§1823_username/hello/world
+		const drive = this.getRandomDrive();
+		const folderParts = path.split("/");
+		this.createFolderPathRecursively(
+			buildPath(drive, "/"),
+			folderParts,
+			false,
+			callback
+		);
 	}
 	public readFile(path: string): Promise<{ found: boolean; data: string }> {
 		return new Promise((res) => {
@@ -199,8 +278,7 @@ class FileSystem {
 		});
 	}
 	createUser(name: string, id: string): void {
-		const matches = name.match(allowedCharacterRegex);
-		this.createFolder(id + "_" + (matches ? matches.join("-") : ""));
+		this.createFolder(genUserFolder(id, name));
 		this.optimalDriveArray;
 		this.writeFile;
 	}
