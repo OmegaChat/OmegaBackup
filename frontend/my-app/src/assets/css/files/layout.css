@@ -71,7 +71,7 @@ main {
 }
 
 .plan-container {
-    width: 100%;
+    /* width: 100%; */
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
