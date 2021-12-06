@@ -1,5 +1,5 @@
 import './App.css';
-import './assets/css/base.css'
+import './assets/scss/base.scss'
 import './assets/js/appearence'
 import darkIcon from './assets/media/darkmode.svg';
 import lightIcon from './assets/media/lightmode.svg';
