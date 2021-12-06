@@ -75,11 +75,11 @@ class FileSystem {
 		getVolumes().then((volumes) => {
 			let coveredVolumes = 0;
 			volumes.forEach((volume) => {
-				getFiles("/Volumes/" + volume + "/").then((files) => {
+				getFiles(buildPath(volume, "/")).then((files) => {
 					if (files && files.length) {
 						if (files.includes(".omega_lastbackup")) {
 							fs.readFile(
-								"/Volumes/" + volume + "/.omega_lastbackup",
+								buildPath(volume, "/.omega_lastbackup"),
 								(err, data) => {
 									if (err) {
 										console.log(err);
@@ -99,6 +99,8 @@ class FileSystem {
 											} else {
 												this.operationalDrives.push(volume);
 											}
+										} else if (files.includes("omega-allow.txt")) {
+											this.operationalDrives.push(volume);
 										}
 										coveredVolumes++;
 										if (coveredVolumes === volumes.length) {
@@ -156,7 +158,7 @@ class FileSystem {
 		});
 	}
 	private updateLastBackup(drive: string): void {
-		const now = new Date().getTime().toString();
+		const now = new Date().toString();
 		if (this.primaryDrives.includes(drive)) {
 			fs.writeFile(buildPath(drive, "/.omega_lastbackup"), now, (err) => {
 				if (err) {

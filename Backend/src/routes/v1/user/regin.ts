@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import user, { user as userSchema } from "../../../db/models/user";
 import { compare, hashSync } from "bcrypt";
 import filesystem from "../../../utils/filesystem";
+import { createToken } from "../../../utils/auth";
 
 interface body {
 	name?: string;
@@ -27,7 +28,10 @@ export default (req: FastifyRequest, res: FastifyReply) => {
 									console.log(err);
 								}
 								if (correct) {
-									res.send({ ok: true });
+									res.send({
+										ok: true,
+										result: { token: createToken(usr._id) },
+									});
 								} else {
 									res.status(401).send({
 										ok: false,
@@ -44,7 +48,10 @@ export default (req: FastifyRequest, res: FastifyReply) => {
 									})
 									.then((createdUser) => {
 										filesystem.createUser(createdUser.name, createdUser._id);
-										res.send({ ok: true });
+										res.send({
+											ok: true,
+											result: { token: createToken(createdUser._id) },
+										});
 									});
 							} else {
 								res.status(400).send({
