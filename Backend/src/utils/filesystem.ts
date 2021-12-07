@@ -16,8 +16,13 @@ const replaceAll = (str: string, find: string, replace: string) => {
 	return str.split(find).join(replace);
 };
 
+// the below code determines the volumes (mac) folder (or media on linux)
 const buildPath = (volume: string, path: string) =>
-	"/Volumes/" + volume + "/" + replaceAll(path, "..", "");
+	(process.platform === "darwin" ? "/Volumes" : "/media/" + process.env.USER) +
+	"/" +
+	volume +
+	"/" +
+	replaceAll(path, "..", "");
 
 const genUserFolder = (id: string, name: string) => {
 	const matches = name.match(allowedCharacterRegex);
@@ -129,7 +134,7 @@ class FileSystem {
 											this.pickPrimaryDrive();
 										}
 									} else {
-										getFiles("/Volumes/" + volume + "/").then((files) => {
+										getFiles(buildPath(volume, "/")).then((files) => {
 											if (files.includes("omega-allow.txt")) {
 												this.operationalDrives.push(volume);
 											} else {
@@ -148,7 +153,7 @@ class FileSystem {
 								}
 							);
 						} else {
-							getFiles("/Volumes/" + volume + "/").then((files) => {
+							getFiles(buildPath(volume, "/")).then((files) => {
 								if (files.includes("omega-allow.txt")) {
 									this.operationalDrives.push(volume);
 								} else {
