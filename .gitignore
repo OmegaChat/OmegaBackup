@@ -1,4 +1,9 @@
 # Logs
+.omega-hashes.json
+*.DS_STORE
+frontend/node_modules
+Frontend/node_modules
+client/node_modules
 logs
 *.log
 npm-debug.log*
