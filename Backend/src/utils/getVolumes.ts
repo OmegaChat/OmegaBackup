@@ -62,5 +62,9 @@ export const getFiles = (path: string): Promise<string[]> => {
 };
 
 export const getVolumes = (): Promise<string[]> => {
-	return getFolders("/Volumes/");
+	return getFolders(
+		process.platform === "darwin"
+			? "/Volumes/"
+			: "/media/" + process.env.USER + "/"
+	);
 };
