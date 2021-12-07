@@ -1,6 +1,7 @@
 import "./App.css";
-import "./assets/scss/base.scss";
 import "./assets/scss/files/layout.scss";
+import "./assets/scss/base.scss";  
+// import "./assets/scss/files/layout.scss";  
 import "./assets/js/appearence";
 import darkIcon from "./assets/media/darkmode.svg";
 import lightIcon from "./assets/media/lightmode.svg";
