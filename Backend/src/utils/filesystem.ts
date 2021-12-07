@@ -189,13 +189,18 @@ class FileSystem {
 			});
 		}
 	}
-	private createFolder(path: string): void {
-		this.getWritableDrives().forEach((drive) => {
-			fs.mkdir(buildPath(drive, path), (err) => {
-				if (err) {
-					console.log(err);
-				}
-				this.updateLastBackup(drive);
+	private createFolder(path: string): Promise<boolean> {
+		return new Promise((res) => {
+			this.getWritableDrives().forEach((drive) => {
+				fs.mkdir(buildPath(drive, path), (err) => {
+					if (err) {
+						res(false);
+						console.log(err);
+					} else {
+						res(true);
+					}
+					this.updateLastBackup(drive);
+				});
 			});
 		});
 	}
@@ -212,13 +217,18 @@ class FileSystem {
 			}
 		);
 	}
-	private writeFile(path: string, data: string): void {
-		this.getWritableDrives().forEach((drive) => {
-			fs.writeFile(buildPath(drive, path), data, (err) => {
-				if (err) {
-					console.log(err);
-				}
-				this.updateLastBackup(drive);
+	private writeFile(path: string, data: string): Promise<boolean> {
+		return new Promise((res) => {
+			this.getWritableDrives().forEach((drive) => {
+				fs.writeFile(buildPath(drive, path), data, (err) => {
+					if (err) {
+						console.log(err);
+						res(false);
+					} else {
+						res(true);
+					}
+					this.updateLastBackup(drive);
+				});
 			});
 		});
 	}
@@ -231,14 +241,15 @@ class FileSystem {
 		if (parts.length) {
 			const addElement = parts[0];
 			if (rapidCreate) {
-				this.createFolder(initialPath + addElement);
-				parts.shift();
-				this.createFolderPathRecursively(
-					initialPath + addElement + "/",
-					parts,
-					rapidCreate,
-					callback
-				);
+				this.createFolder(initialPath + addElement).then(() => {
+					parts.shift();
+					this.createFolderPathRecursively(
+						initialPath + addElement + "/",
+						parts,
+						rapidCreate,
+						callback
+					);
+				});
 			} else {
 				getFolders(buildPath(this.getRandomDrive(), initialPath)).then(
 					(folders) => {
@@ -251,22 +262,56 @@ class FileSystem {
 								callback
 							);
 						} else {
-							this.createFolder(initialPath + addElement);
-							parts.shift();
-							this.createFolderPathRecursively(
-								initialPath + addElement + "/",
-								parts,
-								true,
-								callback
-							);
+							this.createFolder(initialPath + addElement).then(() => {
+								parts.shift();
+								this.createFolderPathRecursively(
+									initialPath + addElement + "/",
+									parts,
+									true,
+									callback
+								);
+							});
 						}
 					}
 				);
 			}
 		} else {
-			callback();
+			setTimeout(() => {
+				callback();
+			}, 200);
 		}
 	}
+	// private moveFile(
+	// 	source: string,
+	// 	destination: string,
+	// 	callback: () => void
+	// ): void {
+	// 	this.getWritableDrives().forEach((drive) => {
+	// 		fs.rename(
+	// 			buildPath(drive, source),
+	// 			buildPath(drive, destination),
+	// 			(err) => {
+	// 				if (err) {
+	// 					console.log(err);
+	// 				}
+	// 				this.updateLastBackup(drive);
+	// 				callback();
+	// 			}
+	// 		);
+	// 	});
+	// }
+	// private moveUserFile(
+	// 	username: string,
+	// 	userId: string,
+	// 	path: string,
+	// 	newPath: string
+	// ): void {
+	// 	this.moveFile(
+	// 		genUserFolder(userId, username) + makeSlashPath(path),
+	// 		genUserFolder(userId, username) + makeSlashPath(newPath),
+	// 		() => {}
+	// 	);
+	// }
 	private generateFolderPath(path: string, callback: () => void) {
 		// path example: 2897349§1823_username/hello/world
 		const folderParts = path.split("/");
