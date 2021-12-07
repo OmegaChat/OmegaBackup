@@ -1,7 +1,7 @@
 import "./App.css";
 import "./assets/scss/files/layout.scss";
-import "./assets/scss/base.scss";  
-// import "./assets/scss/files/layout.scss";  
+import "./assets/scss/base.scss";
+// import "./assets/scss/files/layout.scss";
 import "./assets/js/appearence";
 import darkIcon from "./assets/media/darkmode.svg";
 import lightIcon from "./assets/media/lightmode.svg";
@@ -14,6 +14,7 @@ import Plans from "./template/view/plans";
 function App(props) {
 	return (
 		<div className="App" data-appearance="" data-appearance-invertet="false">
+			<Default></Default>
 			{props.view.map((e) => {
 				// return <Default media={[darkIcon, lightIcon]}></Default>;
 				return <Plans></Plans>;

@@ -12,13 +12,13 @@ app.get("/ping", (_, res) => {
 });
 
 getVolumes().then((volumes) => {
-	if (volumes.length > 1) {
+	if (volumes.length > 0) {
 		console.log(
 			"found",
 			volumes.length - 1,
 			volumes.length > 2 ? "volumes" : "volume",
 			"(",
-			volumes.slice(1).join(", "),
+			volumes.join(", "),
 			")"
 		);
 		applyRoutes(app);
