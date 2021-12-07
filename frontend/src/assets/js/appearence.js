@@ -7,18 +7,33 @@ function docReady(fn) {
 }
 
 docReady(function() {
-
     if(document.querySelector('.appearance-icon-light') && document.querySelector('.appearance-icon-dark') && document.querySelector('.appearence-switch') && document.querySelector('.App')) {
-        // Switch
-        document.querySelector('.appearence-switch').addEventListener('click', (event) => {
-            changeAppearence();
-        })
-    
-        //Listener
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-            e.matches ? setDarkMode() : setLightMode();
-        });
-        initialize();
+        if(document.querySelector('.App').getAttribute('data-plan') == 0) {
+            //invertet
+            document.querySelector('.appearence-switch').innerHTML = '';
+
+            if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                setLightMode();
+            } else {
+                setDarkMode();
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                e.matches ? setLightMode() : setDarkMode();
+            });
+            console.log('only free')
+        } else {
+                // Switch
+                document.querySelector('.appearence-switch').addEventListener('click', (event) => {
+                    changeAppearence();
+                })
+            
+                //Listener
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                    e.matches ? setDarkMode() : setLightMode();
+                });
+                initialize();
+        }
+        
     } else {
         console.log('could not load, because not are elements are placed')
     }
@@ -65,35 +80,23 @@ function changeAppearence() {
 }  
 
 function setLightMode() {
-    if(document.querySelector('.App').getAttribute('data-appearance-invertet') == false) {
-        setRealLightMode();
-    } else {
-        setRealDarkMode();
+    document.querySelector('.App').setAttribute('data-appearance', 'light');
+    if(document.querySelector('.App').getAttribute('data-plan') != 0) {
+        document.querySelector('.appearance-icon-dark').style.display = 'none';
+        document.querySelector('.appearance-icon-light').style.display = 'block';
+        document.cookie = "appearence=light";
     }
+    document.querySelector('.App').classList.remove('dark');
+    document.querySelector('.App').classList.add('light');
 }
 
 function setDarkMode() {
-    if(document.querySelector('.App').getAttribute('data-appearance-invertet') == false) {
-        setRealDarkMode();
-    } else {
-        setRealLightMode();
-    }
-}
-
-function setRealLightMode() {
-    document.querySelector('.App').setAttribute('data-appearance', 'light');
-    document.querySelector('.appearance-icon-dark').style.display = 'none';
-    document.querySelector('.appearance-icon-light').style.display = 'block';
-    document.querySelector('.App').classList.remove('dark');
-    document.querySelector('.App').classList.add('light');
-    document.cookie = "appearence=light";
-}
-
-function setRealDarkMode() {
     document.querySelector('.App').setAttribute('data-appearance', 'dark');
-    document.querySelector('.appearance-icon-dark').style.display = 'block';
-    document.querySelector('.appearance-icon-light').style.display = 'none';
+    if(document.querySelector('.App').getAttribute('data-plan') != 0) {
+        document.querySelector('.appearance-icon-dark').style.display = 'block';
+        document.querySelector('.appearance-icon-light').style.display = 'none';
+        document.cookie = "appearence=dark";
+    }
     document.querySelector('.App').classList.remove('light');
     document.querySelector('.App').classList.add('dark');
-    document.cookie = "appearence=dark";
 }
