@@ -15,8 +15,8 @@ getVolumes().then((volumes) => {
 	if (volumes.length > 0) {
 		console.log(
 			"found",
-			volumes.length - 1,
-			volumes.length > 2 ? "volumes" : "volume",
+			volumes.length,
+			volumes.length > 1 ? "volumes" : "volume",
 			"(",
 			volumes.join(", "),
 			")"
