@@ -2,14 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import "./assets/scss/base.scss";  
-// import "./assets/scss/files/layout.scss";  
+import "./assets/scss/files/layout.scss";  
 import "./assets/js/appearence";
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App view={["welcome"]}/>
+    <App view={"signin"}/>
   </React.StrictMode>,
   document.getElementById('root')
 );

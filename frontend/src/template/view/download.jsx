@@ -1,7 +1,7 @@
 export default (props) => {
     return (
         <div className="asdf">
-            Moin
+            download
         </div>
     )
 }

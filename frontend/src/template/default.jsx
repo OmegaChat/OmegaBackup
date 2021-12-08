@@ -1,7 +1,12 @@
+import darkIcon from "../assets/media/darkmode.svg";
+import lightIcon from "../assets/media/lightmode.svg";
 
-export default (props, media) => {
+export default (props) => {
     return (    
         <header>
+            <div className="placeholder">
+
+            </div>
             <nav>
                 <ul>
                     <li><a href="">Home</a></li>
@@ -9,9 +14,9 @@ export default (props, media) => {
                     <li><a href="">Download</a></li>
                 </ul>
             </nav>
-            <div class="appearence-switch">
-                <span class="appearance-icon-light appearance-icon"><img src={media.lightIcon} /></span>
-                <span class="appearance-icon-dark appearance-icon"><img src={media.darkIcon} /></span>
+            <div class="appearence-switch" style={{display: props.plan}}>
+                <span className="appearance-icon-light appearance-icon"><img src={lightIcon} /></span>
+                <span className="appearance-icon-dark appearance-icon"><img src={darkIcon} /></span>
             </div>
         </header>
     )
