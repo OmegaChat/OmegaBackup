@@ -5,7 +5,7 @@ import db from "./db";
 
 db;
 
-const app = fastify();
+const app = fastify({ bodyLimit: 52428800 });
 
 app.get("/ping", (_, res) => {
 	res.send("pong");

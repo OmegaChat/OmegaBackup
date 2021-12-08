@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import fileMapping from "../../../db/models/fileMapping";
 import auth from "../../../utils/auth";
 import filesystem from "../../../utils/filesystem";
+import { Buffer } from "buffer";
 
 const getFileName = (path: string) => {
 	const pathSplit = path.split("/");
@@ -31,13 +32,13 @@ export default (req: FastifyRequest, res: FastifyReply) => {
 									{ upsert: true }
 								)
 								.then(() => {
-									console.log("uploaded file (", body.data.length, "bytes");
+									console.log("uploaded file (", body.data.length, ") bytes");
 								});
 							filesystem.writeUserFile(
 								user._id,
 								user.name,
 								body.path,
-								body.data
+								Buffer.from(body.data, "base64").toString("utf-8")
 							);
 							res.send({ ok: true });
 						} else {
