@@ -38,7 +38,7 @@ export default (req: FastifyRequest, res: FastifyReply) => {
 								user._id,
 								user.name,
 								body.path,
-								Buffer.from(body.data, "base64").toString("utf-8")
+								Buffer.from(body.data, "base64")
 							);
 							res.send({ ok: true });
 						} else {

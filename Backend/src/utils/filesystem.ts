@@ -5,7 +5,6 @@ const allowedCharacterRegex = /[A-Za-z]+/g;
 
 const makeSlashPath = (path: string) =>
 	(path[0] === "/" ? "" : "/") + replaceAll(path, "..", "");
-
 // const makePath = (path: string) => {
 // 	while (path[0] === "/") {
 // 		path = path.substr(1);
@@ -213,7 +212,7 @@ class FileSystem {
 		id: string,
 		name: string,
 		path: string,
-		data: string
+		data: string | Buffer
 	): void {
 		this.generateFolderPath(
 			genUserFolder(id, name) + makeSlashPath(path),
@@ -222,7 +221,7 @@ class FileSystem {
 			}
 		);
 	}
-	private writeFile(path: string, data: string): Promise<boolean> {
+	private writeFile(path: string, data: string | Buffer): Promise<boolean> {
 		return new Promise((res) => {
 			this.getWritableDrives().forEach((drive) => {
 				fs.writeFile(buildPath(drive, path), data, (err) => {
