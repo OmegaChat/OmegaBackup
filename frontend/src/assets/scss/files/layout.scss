@@ -5,8 +5,10 @@
 }
 
 html {
-	height: 100vh;
+	min-height: 100vh;
 	width: 100%;
+	margin: 0;
+	padding: 0;
 }
 
 body,
@@ -16,7 +18,10 @@ body,
 	width: 100%;
 }
 
-
+.App {
+	display: flex;
+	flex-flow: column;
+}
 
 a {
 	color: black;
@@ -27,6 +32,18 @@ a {
 	background-color: white;
 	color: black;
 	transition: background-color 0.3s, color 0.3s;
+	header {
+		background-color: rgb(26, 28, 43);
+	}
+	.download-container {
+		background-color: rgba(26, 28, 43, 0.6);
+		color: white;
+		button {
+			background-color: rgba(255, 255, 255, 0.5);
+			border-radius: 5px;
+			border: 2px solid rgb(26, 28, 43);
+		}
+	}
 	.sign-container {
 		background-color: rgba(26, 28, 43, 0.6);
 		color: white;
@@ -46,6 +63,21 @@ a {
 	background-color: rgb(26, 28, 43);
 	color: white;
 	transition: background-color 0.3s, color 0.3s;
+	header {
+		background-color: rgb(0, 0, 0);
+		a {
+			color: white;
+		}
+	}
+	.download-container {
+		background-color: rgba(255, 255, 255, 0.1);
+		button {
+			background-color: rgba(255, 255, 255, 0.2);
+			color: white;
+			border-radius: 5px;
+			border: 2px solid white;
+		}
+	}
 	.sign-container {
 		background-color: rgba(255, 255, 255, 0.1);
 		
@@ -63,7 +95,6 @@ a {
 
 header {
 	height: 60px;
-	background-color: rgb(26, 28, 43);
 	display: flex;
 	.placeholder {
 		flex: 1;
@@ -98,6 +129,39 @@ header {
 	}
 }
 
+.welcome-container {
+	width: 100%;
+	.welcome-title {
+		padding: 40px;
+		font-size: 3rem;
+		font-weight: bold;
+	}
+	.welcome-section {
+		background-color: black;
+		width: 100%;
+		padding: 30px 0;
+		display: flex;
+		justify-content: center;
+		.welcome-button-container {
+			max-width: 200px;
+			width: 100%;
+			.welcome-button {
+				width: 100%;
+				padding: 10px;
+				background-color: rgb(118, 118, 250);
+				border-radius: 5px;
+				border: 2px solid white;
+				cursor: pointer;
+			}
+		}
+	}
+	.welcome-button-container {
+		max-width: 500px;
+		.welcome-button {
+
+		}
+	}
+}
 
 ul {
 	margin: 0;
@@ -116,7 +180,7 @@ a {
 }
 
 main {
-	height: 100%;
+	flex: 1;
 	width: 100%;
 }
 
@@ -138,6 +202,12 @@ main {
 }
 
 .plan-wrapper {
+	max-width: 300px;
+	width: 100%;
+	height: 400px;
+	background-color: orange;
+	display: flex;
+	flex-flow: column;
 	.plan-header {
 		height: 50px;
 		background-color: rgba(0, 0, 0, 0.171);
@@ -161,16 +231,19 @@ main {
 	.plan-button > button {
 		width: 100%;
 		padding: 10px;
-		background-color: rgb(79, 79, 255);
+		// background-color: rgb(79, 79, 255);
 		border: 3px solid black;
 		cursor: pointer;
 	}
-	max-width: 300px;
-	width: 100%;
-	height: 500px;
-	background-color: orange;
-	display: flex;
-	flex-flow: column;
+}
+.plan-free {
+	background-color: rgb(143, 143, 233);
+}
+.plan-pro {
+	background-color: rgb(78, 78, 206);
+}
+.plan-enterprise {
+	background-color: rgb(30, 30, 88);
 }
 
 
@@ -216,9 +289,33 @@ main {
 }
 
 
+.download-container {
+	width: 300px;
+	height: 100px;
+	display: flex;
+	flex-flow: column;
+	justify-content: space-between;
+	.download-title {
+		font-size: 0.9rem;
+	}
+	.download-button {
+		margin: 0 20px 20px 20px;
+		padding: 10px;
+		cursor: pointer;
+		filter: opacity(100%);
+		transition: filter 0.2s;
+	}
+	.download-button:hover {
+		filter: opacity(70%);
+	}
+}
 
+.welcome-container {
+	height: 100%;
+	.welcome-title {
 
-
+	}
+}
 
 @media screen and (max-width: 600px) {
 	main {

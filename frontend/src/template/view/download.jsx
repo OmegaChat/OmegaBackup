@@ -1,7 +1,16 @@
 export default (props) => {
     return (
-        <div className="asdf">
-            download
-        </div>
+        <main>
+            <div className="center">
+                <div className="download-container">
+                    <p className="download-title">
+                        Omegabackup Version Alpha
+                    </p>
+                    <button className="download-button">
+                        Download
+                    </button>
+                </div>
+            </div>
+        </main>
     )
 }

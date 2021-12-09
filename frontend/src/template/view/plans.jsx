@@ -2,7 +2,7 @@ export default (props) => {
     return (
         <main>
             <div className="plan-container">
-                <div className="plan-wrapper">
+                <div className="plan-wrapper plan-free">
                     <div className="plan-header">
                         <div className="plan-title">
                             Free
@@ -15,7 +15,7 @@ export default (props) => {
                         <button>Buy</button>
                     </div>
                 </div>
-                <div className="plan-wrapper">
+                <div className="plan-wrapper plan-pro">
                     <div className="plan-header">
                             <div className="plan-title">
                                 Pro
@@ -28,7 +28,7 @@ export default (props) => {
                             <button>Buy</button>
                         </div>
                     </div>
-                <div className="plan-wrapper">
+                <div className="plan-wrapper plan-enterprise">
                     <div className="plan-header">
                         <div className="plan-title">
                             Enterprise
