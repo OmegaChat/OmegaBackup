@@ -1,7 +1,7 @@
 import { getFolders, foldersOrFiles } from "./getFolders";
 import readFileVersions, { writeFileVersions } from "./readFileVersions";
 import { createHash } from "crypto";
-import { readFile } from "fs";
+import { createReadStream, readFile } from "fs";
 import { getType } from "mime";
 import uploadFile from "./uploadFile";
 
@@ -28,12 +28,20 @@ export const checkFolder = (
 			if (fileHash !== versions[items.pathName]) {
 				versions[items.pathName] = fileHash;
 				const type = getType(items.pathName);
-				uploadFile(
-					items.pathName,
-					type ? type : "text/plain",
-					data.toString(),
-					token
-				);
+				const readStream = createReadStream(items.pathName);
+				const blobs: Buffer[] = [];
+				readStream.on("data", (chunk) => {
+					blobs.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
+				});
+				readStream.on("end", () => {
+					uploadFile(
+						items.pathName,
+						type ? type : "text/plain",
+						Buffer.concat(blobs),
+						token
+					);
+				});
+				readStream.on("end", () => {});
 				console.log(`${items.pathName} has been changed`);
 			}
 		});

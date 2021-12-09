@@ -1,6 +1,5 @@
 import axios from "axios";
 import runBackup, { loadFileVersions } from "./runBackup";
-
 let token = "";
 
 axios
@@ -23,5 +22,3 @@ axios
 	.catch((err) => {
 		console.log("Failed to log in. Error:", err.response.data);
 	});
-
-// testeeksjdfherhfj

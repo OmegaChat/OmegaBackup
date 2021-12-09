@@ -1,15 +1,20 @@
 import axios from "axios";
+import { Buffer } from "buffer";
 
 export default (
 	pathName: string,
 	type: String,
-	data: string,
+	data: Buffer,
 	token: string
 ) => {
 	axios
 		.post(
 			"http://localhost:3000/v1/file/upload",
-			{ path: pathName, type: type, data: data },
+			{
+				path: pathName,
+				type: type,
+				data: data.toString("base64"),
+			},
 			{ headers: { auth: token } }
 		)
 		.catch((err) => {

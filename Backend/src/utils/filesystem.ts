@@ -5,7 +5,6 @@ const allowedCharacterRegex = /[A-Za-z]+/g;
 
 const makeSlashPath = (path: string) =>
 	(path[0] === "/" ? "" : "/") + replaceAll(path, "..", "");
-
 // const makePath = (path: string) => {
 // 	while (path[0] === "/") {
 // 		path = path.substr(1);
@@ -36,11 +35,98 @@ const genUserFolder = (id: string, name: string) => {
 class FileSystem {
 	private operationalDrives: string[] = [];
 	private primaryDrives: string[] = [];
+	private blockedDrives: string[] = [];
 	private optimalDriveArray: string[] = [];
 	private getRandomDrive(): string {
 		return this.primaryDrives[
 			Math.floor(Math.random() * this.primaryDrives.length)
 		];
+	}
+	private cloneFolder(source: string, target: string, path: string) {
+		getFolders(buildPath(source, path + "/")).then((folders) => {
+			folders.forEach((folder) => {
+				fs.mkdir(buildPath(target, path + "/" + folder + "/"), (err) => {
+					if (err) {
+						console.log(err);
+					} else {
+						this.cloneFolder(source, target, path + "/" + folder);
+					}
+				});
+			});
+		});
+		getFiles(buildPath(source, path + "/")).then((files) => {
+			files.forEach((file) => {
+				fs.readFile(buildPath(source, path + "/" + file), (err, data) => {
+					if (err) {
+						console.log(err);
+					}
+					fs.writeFile(buildPath(target, path + "/" + file), data, (err) => {
+						if (err) {
+							console.log(err);
+						}
+					});
+				});
+			});
+		});
+	}
+	private cloneDrive(target: string) {
+		if (this.operationalDrives.includes(target)) {
+			getFolders(buildPath(this.getRandomDrive(), "")).then((folders) => {
+				folders.forEach((folder) => {
+					fs.mkdir(buildPath(target, folder + "/"), (err) => {
+						if (err) {
+							console.log(err);
+						} else {
+							this.cloneFolder(this.getRandomDrive(), target, folder);
+						}
+					});
+				});
+			});
+			this.blockedDrives.push(target);
+			this.operationalDrives.splice(this.operationalDrives.indexOf(target), 1);
+			setTimeout(
+				(() => {
+					this.blockedDrives.splice(this.blockedDrives.indexOf(target), 1);
+					this.primaryDrives.push(target);
+				}).bind(this),
+				10000
+			);
+		} else {
+			console.log("tried to clone primary drive or drive was removed");
+		}
+	}
+	private checkDrives(): void {
+		console.log(this.primaryDrives, this.operationalDrives);
+		const newPrimaryDrives: string[] = [];
+		const newOperationalDrives: string[] = [];
+		getVolumes().then((volumes) => {
+			this.primaryDrives.forEach((drive) => {
+				if (volumes.includes(drive)) {
+					newPrimaryDrives.push(drive);
+				}
+			});
+			this.operationalDrives.forEach((drive) => {
+				if (volumes.includes(drive)) {
+					newOperationalDrives.push(drive);
+				}
+			});
+			volumes.forEach((volume) => {
+				if (
+					!this.primaryDrives.includes(volume) &&
+					!this.operationalDrives.includes(volume) &&
+					!this.blockedDrives.includes(volume)
+				) {
+					getFiles(buildPath(volume, "")).then((files) => {
+						if (files.includes("omega-allow.txt")) {
+							this.operationalDrives.push(volume);
+						}
+					});
+				}
+			});
+			this.primaryDrives = newPrimaryDrives;
+			this.operationalDrives = newOperationalDrives;
+			this.pickPrimaryDrive();
+		});
 	}
 	private calculateOptimalDriveArray(): Promise<number> {
 		const speeds: { drive: string; speed: number }[] = [];
@@ -96,6 +182,9 @@ class FileSystem {
 			}
 		}
 		this.calculateOptimalDriveArray();
+		this.operationalDrives.forEach((drive) => {
+			this.cloneDrive(drive);
+		});
 		console.log("Primary drives:", this.primaryDrives.join(", "));
 	}
 	constructor() {
@@ -131,6 +220,7 @@ class FileSystem {
 										}
 										coveredVolumes++;
 										if (coveredVolumes === volumes.length) {
+											setInterval(this.checkDrives.bind(this), 5000);
 											this.pickPrimaryDrive();
 										}
 									} else {
@@ -146,6 +236,7 @@ class FileSystem {
 											}
 											coveredVolumes++;
 											if (coveredVolumes === volumes.length) {
+												setInterval(this.checkDrives.bind(this), 5000);
 												this.pickPrimaryDrive();
 											}
 										});
@@ -165,6 +256,7 @@ class FileSystem {
 								}
 								coveredVolumes++;
 								if (coveredVolumes === volumes.length) {
+									setInterval(this.checkDrives.bind(this), 5000);
 									this.pickPrimaryDrive();
 								}
 							});
@@ -200,6 +292,7 @@ class FileSystem {
 				fs.mkdir(buildPath(drive, path), (err) => {
 					if (err) {
 						res(false);
+						this.checkDrives();
 						console.log(err);
 					} else {
 						res(true);
@@ -213,7 +306,7 @@ class FileSystem {
 		id: string,
 		name: string,
 		path: string,
-		data: string
+		data: string | Buffer
 	): void {
 		this.generateFolderPath(
 			genUserFolder(id, name) + makeSlashPath(path),
@@ -222,12 +315,13 @@ class FileSystem {
 			}
 		);
 	}
-	private writeFile(path: string, data: string): Promise<boolean> {
+	private writeFile(path: string, data: string | Buffer): Promise<boolean> {
 		return new Promise((res) => {
 			this.getWritableDrives().forEach((drive) => {
 				fs.writeFile(buildPath(drive, path), data, (err) => {
 					if (err) {
 						console.log(err);
+						this.checkDrives();
 						res(false);
 					} else {
 						res(true);
@@ -337,7 +431,6 @@ class FileSystem {
 	createUser(name: string, id: string): void {
 		this.createFolder(genUserFolder(id, name));
 		this.optimalDriveArray;
-		this.writeFile;
 	}
 }
 
