@@ -14,35 +14,32 @@ import FileExplorer from "./template/view/fileexplorer.tsx";
 function App(props) {
 	return (
 		<div className="App" data-appearance="" data-plan="1">
-			<Default/>
-			{
-				getView(props)
-			}
+			<Default />
+			{getView(props)}
 		</div>
 	);
 }
 
 function getView(props) {
-	switch(props.view) {
-		case 'signin' : {
+	switch (props.view) {
+		case "signin": {
 			return <Signin></Signin>;
 		}
-		case 'signup' : {
+		case "signup": {
 			return <Signup></Signup>;
 		}
-		case 'download' : {
+		case "download": {
 			return <Download></Download>;
 		}
-		case 'plans' : {
+		case "plans": {
 			return <Plans></Plans>;
 		}
-		case 'app' : {
+		case "app": {
 			return <FileExplorer></FileExplorer>;
 		}
-		default : {
+		default: {
 			return <Welcome></Welcome>;
 		}
-
 	}
 }
 
