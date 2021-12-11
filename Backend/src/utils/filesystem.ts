@@ -4,7 +4,8 @@ import { getVolumes, getFiles, getFolders } from "./getVolumes";
 const allowedCharacterRegex = /[A-Za-z]+/g;
 
 const makeSlashPath = (path: string) =>
-	(path[0] === "/" ? "" : "/") + replaceAll(path, "..", "");
+	(path[0] === "/" ? "" : "/") +
+	replaceAll(replaceAll(path, "../", ""), "..", "");
 // const makePath = (path: string) => {
 // 	while (path[0] === "/") {
 // 		path = path.substr(1);
@@ -21,7 +22,7 @@ const buildPath = (volume: string, path: string) =>
 	"/" +
 	volume +
 	"/" +
-	replaceAll(path, "..", "");
+	replaceAll(replaceAll(path, "../", ""), "..", "");
 
 const genUserFolder = (id: string, name: string) => {
 	const matches = name.match(allowedCharacterRegex);
@@ -38,8 +39,8 @@ class FileSystem {
 	private blockedDrives: string[] = [];
 	private optimalDriveArray: string[] = [];
 	private getRandomDrive(): string {
-		return this.primaryDrives[
-			Math.floor(Math.random() * this.primaryDrives.length)
+		return this.optimalDriveArray[
+			Math.floor(Math.random() * this.optimalDriveArray.length)
 		];
 	}
 	private cloneFolder(source: string, target: string, path: string) {
@@ -480,17 +481,38 @@ class FileSystem {
 		folderParts.pop();
 		this.createFolderPathRecursively("", folderParts, false, callback);
 	}
-	public readFile(path: string): Promise<{ found: boolean; data: string }> {
+	public readUserFile(id: string, name: string, path: string): Promise<string> {
 		return new Promise((res) => {
-			fs.readFile(buildPath(this.getRandomDrive(), path), (err, data) => {
-				if (err) {
-					res({ found: false, data: "" });
-				} else {
-					res({ found: true, data: data.toString() });
-				}
+			const stream = fs.createReadStream(
+				buildPath(
+					this.getRandomDrive(),
+					genUserFolder(id, name) + makeSlashPath(path)
+				)
+			);
+			stream.on("error", (err) => {
+				console.log(err);
+				res("");
+			});
+			let chunks: Buffer[] = [];
+			stream.on("data", (chunk) => {
+				chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
+			});
+			stream.on("end", () => {
+				res(Buffer.concat(chunks).toString());
 			});
 		});
 	}
+	// private readFile(path: string): Promise<{ found: boolean; data: string }> {
+	// 	return new Promise((res) => {
+	// 		fs.readFile(buildPath(this.getRandomDrive(), path), (err, data) => {
+	// 			if (err) {
+	// 				res({ found: false, data: "" });
+	// 			} else {
+	// 				res({ found: true, data: data.toString() });
+	// 			}
+	// 		});
+	// 	});
+	// }
 	createUser(name: string, id: string): void {
 		this.createFolder(genUserFolder(id, name));
 		this.optimalDriveArray;
