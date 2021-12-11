@@ -25,23 +25,21 @@ function getView(props) {
 	switch(props.view) {
 		case 'signin' : {
 			return <Signin></Signin>;
-			break;
 		}
 		case 'signup' : {
 			return <Signup></Signup>;
-			break;
 		}
 		case 'download' : {
 			return <Download></Download>;
-			break;
 		}
 		case 'plans' : {
 			return <Plans></Plans>;
-			break;
+		}
+		case 'app' : {
+			return <Welcome></Welcome>;
 		}
 		default : {
 			return <Welcome></Welcome>;
-			break;
 		}
 
 	}
