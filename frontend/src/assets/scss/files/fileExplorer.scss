@@ -9,8 +9,9 @@
 }
 
 .content__rows {
+	gap: 30px;
 	display: flex;
-	flex-direction: row;
+	flex-flow: row wrap;
 }
 
 .rows__row {
@@ -20,6 +21,10 @@
 	padding: 30px;
 	background-color: rgb(95, 95, 95);
 	border-radius: 10px;
+}
+
+.row__item.row__folder:hover {
+	background-color: rgb(99, 224, 255);
 }
 
 .row__item:hover:not(.row__folder) {
@@ -36,6 +41,11 @@
 }
 
 .row__folder {
+	min-width: 75 px;
 	color: black;
 	background-color: rgb(73, 192, 221);
+}
+
+.rows__nocontent {
+	color: white;
 }
