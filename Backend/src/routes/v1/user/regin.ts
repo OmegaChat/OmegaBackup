@@ -28,9 +28,11 @@ export default (req: FastifyRequest, res: FastifyReply) => {
 									console.log(err);
 								}
 								if (correct) {
+									const token = createToken(usr._id);
+									res.header("set-cookie", `omegatoken=${token}; HttpOnly; Max-Age=${604800000}; Path=/`);
 									res.send({
 										ok: true,
-										result: { token: createToken(usr._id) },
+										result: { token: token },
 									});
 								} else {
 									res.status(401).send({
@@ -47,7 +49,9 @@ export default (req: FastifyRequest, res: FastifyReply) => {
 										password: hashSync(body.password, 10),
 									})
 									.then((createdUser) => {
+										const token = createToken(createdUser._id)
 										filesystem.createUser(createdUser.name, createdUser._id);
+										res.header("set-cookie", `omegatoken=${token}; HttpOnly; Max-Age=${604800000}; Path=/`);
 										res.send({
 											ok: true,
 											result: { token: createToken(createdUser._id) },

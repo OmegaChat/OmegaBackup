@@ -1,0 +1,41 @@
+.content {
+	height: calc(100vh - 160px);
+	padding: 50px;
+}
+
+.content__title {
+	font-size: 1.5rem;
+	text-align: left;
+}
+
+.content__rows {
+	display: flex;
+	flex-direction: row;
+}
+
+.rows__row {
+	height: calc(100vh - 280px);
+	text-align: left;
+	max-width: 300px;
+	padding: 30px;
+	background-color: rgb(95, 95, 95);
+	border-radius: 10px;
+}
+
+.row__item:hover:not(.row__folder) {
+	background-color: rgb(73, 73, 73);
+}
+
+.row__item {
+	color: white;
+	transition: background-color 0.3s;
+	cursor: pointer;
+	background-color: rgb(53, 53, 53);
+	padding: 10px;
+	border-radius: 10px;
+}
+
+.row__folder {
+	color: black;
+	background-color: rgb(73, 192, 221);
+}

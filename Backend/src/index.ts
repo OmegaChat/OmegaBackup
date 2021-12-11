@@ -1,11 +1,16 @@
 import fastify from "fastify";
 import { getVolumes } from "./utils/getVolumes";
 import applyRoutes from "./routes";
+import cors from "fastify-cors"
 import db from "./db";
-
 db;
 
 const app = fastify({ bodyLimit: 52428800 });
+
+app.register(cors, {
+	origin: ["http://backup.omega.com", "http://omega.backup.com:3000"],
+	credentials: true,
+});
 
 app.get("/ping", (_, res) => {
 	res.send("pong");

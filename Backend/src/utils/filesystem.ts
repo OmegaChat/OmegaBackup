@@ -69,6 +69,69 @@ class FileSystem {
 			});
 		});
 	}
+	public listFolders(
+		name: string,
+		id: string,
+		path: string
+	): Promise<{ path: string; isFile: boolean; name: string }[]> {
+		return new Promise((res) => {
+			console.log(
+				buildPath(
+					this.getRandomDrive(),
+					genUserFolder(id, name) + makeSlashPath(path)
+				)
+			);
+			fs.readdir(
+				buildPath(
+					this.getRandomDrive(),
+					genUserFolder(id, name) + makeSlashPath(path)
+				),
+				(err, files) => {
+					if (err) {
+						console.log(err);
+						res([]);
+					} else if (files.length === 0) {
+						res([]);
+					} else {
+						let done = 0;
+						const results: { path: string; isFile: boolean; name: string }[] =
+							[];
+						files.forEach((file) => {
+							if (file[0] === ".") {
+								if (done === files.length) {
+									res(results);
+								}
+								done++;
+							} else {
+								fs.stat(
+									buildPath(
+										this.getRandomDrive(),
+										genUserFolder(id, name) + makeSlashPath(path + file)
+									),
+									(err, stats) => {
+										if (err) {
+											console.log(err);
+										}
+										if (stats) {
+											results.push({
+												path: makeSlashPath(path + file),
+												isFile: stats.isFile(),
+												name: file,
+											});
+										}
+										done++;
+										if (done === files.length) {
+											res(results);
+										}
+									}
+								);
+							}
+						});
+					}
+				}
+			);
+		});
+	}
 	private cloneDrive(target: string) {
 		if (this.operationalDrives.includes(target)) {
 			getFolders(buildPath(this.getRandomDrive(), "")).then((folders) => {

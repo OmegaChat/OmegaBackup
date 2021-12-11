@@ -7,7 +7,7 @@ import "./assets/js/appearence";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App view={window.location.pathname.slice(1)|| "app"}/>
+    <App view={window.location.pathname.slice(1)|| "welcome"}/>
   </React.StrictMode>,
   document.getElementById('root')
 );

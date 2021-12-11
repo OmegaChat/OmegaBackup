@@ -18,6 +18,20 @@ export default (props) => {
 							</a>
 						</div>
 					</div>
+					<div className="welcome-section">
+						<div className="welcome-button-container">
+							<a href="/signup">
+								<button className="welcome-button">Sign Up</button>
+							</a>
+						</div>
+					</div>
+					<div className="welcome-section">
+						<div className="welcome-button-container">
+							<a href="/signin">
+								<button className="welcome-button">Sign In</button>
+							</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</main>

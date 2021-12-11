@@ -185,7 +185,7 @@ main {
 }
 
 .center {
-	height: 100vh;
+	height: calc(100vh - 60px);
 	width: 100%;
 	display: flex;
 	justify-content: center;
@@ -194,6 +194,7 @@ main {
 
 .plan-container {
 	/* width: 100%; */
+	height: calc(100vh - 160px);
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
@@ -251,8 +252,10 @@ main {
 
 .sign-container {
 	width: 400px;
-	padding: 20px;
+	padding: 30px;
 	.sign-title {
+		margin-top: 30px;
+		margin-bottom: 50px;
 		font-size: 2rem;
 		text-align: center;
 	}
@@ -332,4 +335,10 @@ main {
 		width: 100%;
 		height: 100%;
 	}
+}
+
+
+
+.errorMessage {
+	color: red;
 }

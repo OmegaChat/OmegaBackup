@@ -7,9 +7,9 @@ import Default from "./template/default";
 import Welcome from "./template/view/welcome";
 import Download from "./template/view/download";
 import Signin from "./template/view/signin";
-import Signup from "./template/view/signup";
+import Signup from "./template/view/SignUp.tsx";
 import Plans from "./template/view/plans";
-import FileExplorer from "./template/view/fileexplorer";
+import FileExplorer from "./template/view/fileexplorer.tsx";
 
 function App(props) {
 	return (

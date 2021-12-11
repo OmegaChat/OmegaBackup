@@ -17,6 +17,20 @@ export default (req: FastifyRequest, res: FastifyReply) => {
 				if (typeof body.path === "string") {
 					if (typeof body.type === "string") {
 						if (typeof body.data === "string") {
+							fileMapping.findOne({ filePath: body.path }).then((file) => {
+								if (file) {
+								} else {
+									fileMapping.create({
+										created: new Date(),
+										fileName: getFileName(body.path),
+										internalFileName: body.path,
+										filePath: body.path,
+										mimeType: body.type,
+										size: body.data.length,
+										userId: user._id,
+									});
+								}
+							});
 							fileMapping
 								.findOneAndUpdate(
 									{ filePath: body.path },

@@ -61,6 +61,37 @@ export const getFiles = (path: string): Promise<string[]> => {
 	});
 };
 
+export const getItems = (
+	path: string
+): Promise<{ path: string; isFile: boolean }[]> => {
+	const items: { path: string; isFile: boolean }[] = [];
+	let done = 0;
+	return new Promise((res) => {
+		fs.readdir(path, {}, (_, foundFiles) => {
+			if (foundFiles && foundFiles.length > 0) {
+				foundFiles.forEach((file) => {
+					fs.stat(path + file, {}, (_, stats) => {
+						if (stats) {
+							items.push({ path: file.toString(), isFile: stats.isFile() });
+							done += 1;
+							if (done === foundFiles.length) {
+								res(items);
+							}
+						} else {
+							done += 1;
+							if (done === foundFiles.length) {
+								res(items);
+							}
+						}
+					});
+				});
+			} else {
+				res([]);
+			}
+		});
+	});
+};
+
 export const getVolumes = (): Promise<string[]> => {
 	return getFolders(
 		process.platform === "darwin"
