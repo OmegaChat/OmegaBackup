@@ -9,6 +9,7 @@ import Download from "./template/view/download";
 import Signin from "./template/view/signin";
 import Signup from "./template/view/signup";
 import Plans from "./template/view/plans";
+import FileExplorer from "./template/view/fileexplorer";
 
 function App(props) {
 	return (
@@ -36,7 +37,7 @@ function getView(props) {
 			return <Plans></Plans>;
 		}
 		case 'app' : {
-			return <Welcome></Welcome>;
+			return <FileExplorer></FileExplorer>;
 		}
 		default : {
 			return <Welcome></Welcome>;

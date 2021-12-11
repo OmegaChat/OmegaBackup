@@ -5,13 +5,12 @@ const def = (props) => {
     return (    
         <header>
             <div className="placeholder">
-
             </div>
             <nav>
                 <ul>
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Plans</a></li>
-                    <li><a href="">Download</a></li>
+                    <li><a href="/welcome">Home</a></li>
+                    <li><a href="/plans">Plans</a></li>
+                    <li><a href="/download">Download</a></li>
                 </ul>
             </nav>
             <div className="appearence-switch" style={{display: props.plan}}>

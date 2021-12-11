@@ -185,7 +185,7 @@ main {
 }
 
 .center {
-	height: 100%;
+	height: 100vh;
 	width: 100%;
 	display: flex;
 	justify-content: center;
@@ -214,9 +214,11 @@ main {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		padding: 1rem;
 		.plan-title {
 			text-align: center;
-			font-size: 3rem;
+			color: white;
+			font-size: 2rem;
 		}
 	}
 	.plan-des {

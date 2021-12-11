@@ -1,8 +1,11 @@
+import { useState } from "react"
 
-export default (props, media) => {
+const fileExplorer = (props, media) => {
     return (    
         <main>
-
+            <div></div>            
         </main>
     )
 }
+
+export default fileExplorer
