@@ -37,7 +37,7 @@ const SignIn = (props, media) => {
 								value="Log In"
 								style={
 									email && password
-										? { curor: "pointer", opacity: "100%" }
+										? { cursor: "pointer", opacity: "100%" }
 										: { cursor: "not-allowed", opacity: "40%" }
 								}
 								onClick={(e) => {

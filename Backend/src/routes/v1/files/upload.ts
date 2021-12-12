@@ -4,9 +4,19 @@ import auth from "../../../utils/auth";
 import filesystem from "../../../utils/filesystem";
 import { Buffer } from "buffer";
 
+// replace last occurrence of a string
+const replaceLast = (str: string, find: string, replace: string) => {
+	return str.replace(new RegExp(find + "($| )", "g"), replace + "$1");
+};
+
 const getFileName = (path: string) => {
 	const pathSplit = path.split("/");
 	return pathSplit[pathSplit.length - 1];
+};
+
+const injectId = (path: string, id: string): string => {
+	const fileName = getFileName(path);
+	return replaceLast(path, fileName, "") + "history-" + id + fileName;
 };
 
 export default (req: FastifyRequest, res: FastifyReply) => {
@@ -17,36 +27,36 @@ export default (req: FastifyRequest, res: FastifyReply) => {
 				if (typeof body.path === "string") {
 					if (typeof body.type === "string") {
 						if (typeof body.data === "string") {
-							fileMapping.findOne({ filePath: body.path }).then((file) => {
-								if (file) {
-								} else {
+							fileMapping
+								.findOne({ filePath: body.path, head: true })
+								.then((file) => {
+									console.log(file);
 									fileMapping.create({
 										created: new Date(),
 										fileName: getFileName(body.path),
 										internalFileName: body.path,
 										filePath: body.path,
+										head: true,
 										mimeType: body.type,
 										size: body.data.length,
 										userId: user._id,
 									});
-								}
-							});
-							fileMapping
-								.findOneAndUpdate(
-									{ filePath: body.path },
-									{
-										created: new Date(),
-										fileName: getFileName(body.path),
-										internalFileName: body.path,
-										filePath: body.path,
-										mimeType: body.type,
-										size: body.data.length,
-										userId: user._id,
-									},
-									{ upsert: true }
-								)
-								.then(() => {
-									console.log("uploaded file (", body.data.length, ") bytes");
+									if (file) {
+										filesystem.moveUserFile(
+											user.name,
+											user._id,
+											body.path,
+											injectId(body.path, file._id.toString())
+										);
+										fileMapping
+											.findByIdAndUpdate(file._id, {
+												internalFileName: injectId(body.path, file._id),
+												head: false,
+											})
+											.then((c) => {
+												console.log(c);
+											});
+									}
 								});
 							filesystem.writeUserFile(
 								user._id,

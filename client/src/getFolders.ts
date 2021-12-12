@@ -1,5 +1,4 @@
 import fs from "fs";
-
 export interface foldersOrFiles {
 	isFile: boolean;
 	pathName: string;
@@ -16,7 +15,7 @@ export const getFolders = (
 		fs.readdir(path, {}, (_, files) => {
 			if (files && files.length) {
 				files.forEach((file) => {
-					if (file !== ".omega-hashes.json") {
+					if (file !== ".omega-hashes.json" && file[0] !== ".") {
 						fs.stat(path + "/" + file, {}, (_, stats) => {
 							if (stats) {
 								if (stats.isFile()) {

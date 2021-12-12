@@ -3,7 +3,7 @@ import { getVolumes, getFiles, getFolders } from "./getVolumes";
 
 const allowedCharacterRegex = /[A-Za-z]+/g;
 
-const makeSlashPath = (path: string) =>
+export const makeSlashPath = (path: string) =>
 	(path[0] === "/" ? "" : "/") +
 	replaceAll(replaceAll(path, "../", ""), "..", "");
 // const makePath = (path: string) => {
@@ -98,7 +98,7 @@ class FileSystem {
 						const results: { path: string; isFile: boolean; name: string }[] =
 							[];
 						files.forEach((file) => {
-							if (file[0] === ".") {
+							if (file[0] === "." || file.indexOf("history-") === 0) {
 								if (done === files.length) {
 									res(results);
 								}
@@ -444,37 +444,37 @@ class FileSystem {
 			}, 200);
 		}
 	}
-	// private moveFile(
-	// 	source: string,
-	// 	destination: string,
-	// 	callback: () => void
-	// ): void {
-	// 	this.getWritableDrives().forEach((drive) => {
-	// 		fs.rename(
-	// 			buildPath(drive, source),
-	// 			buildPath(drive, destination),
-	// 			(err) => {
-	// 				if (err) {
-	// 					console.log(err);
-	// 				}
-	// 				this.updateLastBackup(drive);
-	// 				callback();
-	// 			}
-	// 		);
-	// 	});
-	// }
-	// private moveUserFile(
-	// 	username: string,
-	// 	userId: string,
-	// 	path: string,
-	// 	newPath: string
-	// ): void {
-	// 	this.moveFile(
-	// 		genUserFolder(userId, username) + makeSlashPath(path),
-	// 		genUserFolder(userId, username) + makeSlashPath(newPath),
-	// 		() => {}
-	// 	);
-	// }
+	private moveFile(
+		source: string,
+		destination: string,
+		callback: () => void
+	): void {
+		this.getWritableDrives().forEach((drive) => {
+			fs.rename(
+				buildPath(drive, source),
+				buildPath(drive, destination),
+				(err) => {
+					if (err) {
+						console.log(err);
+					}
+					this.updateLastBackup(drive);
+					callback();
+				}
+			);
+		});
+	}
+	public moveUserFile(
+		username: string,
+		userId: string,
+		path: string,
+		newPath: string
+	): void {
+		this.moveFile(
+			genUserFolder(userId, username) + makeSlashPath(path),
+			genUserFolder(userId, username) + makeSlashPath(newPath),
+			() => {}
+		);
+	}
 	private generateFolderPath(path: string, callback: () => void) {
 		// path example: 2897349§1823_username/hello/world
 		const folderParts = path.split("/");

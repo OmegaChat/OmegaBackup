@@ -9,7 +9,7 @@ export default (
 ) => {
 	axios
 		.post(
-			"http://localhost:3000/v1/file/upload",
+			process.argv[4] + "/v1/file/upload",
 			{
 				path: pathName,
 				type: type,

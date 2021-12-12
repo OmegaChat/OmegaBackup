@@ -3,7 +3,7 @@ import runBackup, { loadFileVersions } from "./runBackup";
 let token = "";
 
 axios
-	.post("http://localhost:3000/v1/user/regin", {
+	.post(process.argv[4] + "/v1/user/regin", {
 		name: process.argv[2],
 		password: process.argv[3],
 	})

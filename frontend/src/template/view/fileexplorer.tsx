@@ -1,11 +1,25 @@
 import { useEffect, useState } from "react";
 import "../../assets/scss/files/fileExplorer.scss";
 import backend from "../shared/url";
+import { format } from "timeago.js";
 
 interface file {
 	path: string;
 	isFile: Boolean;
 	name: string;
+}
+
+interface fileInfo {
+	head: {
+		created: number;
+		fileName: string;
+		path: string;
+		mimeType: string;
+	};
+	versions: {
+		created: number;
+		path: string;
+	}[];
 }
 
 const FileExplorer = () => {
@@ -15,46 +29,55 @@ const FileExplorer = () => {
 	const [cursorPosition, setCursorPosition] = useState<number>(0);
 	const [state, setState] = useState<number>(0);
 	const [showFile, setShowFile] = useState<file | undefined>(undefined);
+	const [selectedFileDetails, setSelectedFileDetails] = useState<
+		fileInfo | undefined
+	>(undefined);
 	useEffect(() => {
 		fetch(backend + "/v1/files/list", {
 			method: "POST",
 			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				path: path + "/",
+			}),
 		}).then((r) => {
 			r.json().then((data) => {
 				if (data.ok) {
-					setRows([data.result]);
+					// rows.push(data.result);
+					rows[cursorPosition + 1] = data.result;
+					rows.length = cursorPosition + 2;
+					setState(state + 1);
+					setRows(rows);
 				} else {
 					setError(data.error);
 				}
 			});
 		});
-	}, []);
+	}, [path]);
 	useEffect(() => {
-		if (path) {
-			fetch(backend + "/v1/files/list", {
+		if (showFile) {
+			fetch(backend + "/v1/files/info", {
 				method: "POST",
 				credentials: "include",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					path: path + "/",
+					path: showFile.path,
 				}),
 			}).then((r) => {
 				r.json().then((data) => {
 					if (data.ok) {
-						// rows.push(data.result);
-						rows[cursorPosition + 1] = data.result;
-						rows.length = cursorPosition + 2;
-						setState(state + 1);
-						setRows(rows);
+						setSelectedFileDetails(data.result);
 					} else {
 						setError(data.error);
 					}
 				});
 			});
 		}
-	}, [path]);
+	}, [showFile]);
 	return (
 		<div className="content">
 			<h1 className="content__title">File Explorer</h1>
@@ -93,6 +116,22 @@ const FileExplorer = () => {
 							);
 					  })
 					: undefined}
+				{showFile ? (
+					selectedFileDetails ? (
+						<div className="rows__row rows__selected">
+							<h1>{selectedFileDetails.head.fileName}</h1>
+							<p className="selected__lastversion">
+								{format(selectedFileDetails.head.created)}
+							</p>
+							<h3 className="selected__versions">
+								{selectedFileDetails.versions.length} versions
+							</h3>
+							<div className="selected__download">
+								<button className="download__button">Download</button>
+							</div>
+						</div>
+					) : undefined
+				) : undefined}
 			</div>
 		</div>
 	);

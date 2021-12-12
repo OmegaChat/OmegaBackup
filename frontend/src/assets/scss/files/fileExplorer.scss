@@ -11,7 +11,7 @@
 .content__rows {
 	gap: 30px;
 	display: flex;
-	flex-flow: row wrap;
+	flex-flow: row;
 }
 
 .rows__row {
@@ -46,6 +46,32 @@
 	background-color: rgb(73, 192, 221);
 }
 
+.rows__selected {
+	min-width: 200px;
+	position: relative;
+	background-color: rgb(0, 98, 122);
+}
+
 .rows__nocontent {
 	color: white;
+}
+
+.selected__download {
+	position: absolute;
+	bottom: 30px;
+}
+
+.download__button {
+	width: 200px;
+	background-color: rgb(138, 232, 255);
+	border-width: 0px;
+	padding: 10px;
+	border-radius: 10px;
+	color: black;
+	transition: background-color 0.3s;
+	cursor: pointer;
+}
+
+.download__button:hover {
+	background-color: rgb(99, 224, 255);
 }

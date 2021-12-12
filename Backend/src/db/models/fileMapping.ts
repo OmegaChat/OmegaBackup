@@ -4,6 +4,7 @@ interface fileMapping {
 	_id: string;
 	created: Date;
 	fileName: string;
+	head: boolean;
 	internalFileName: string;
 	filePath: string;
 	mimeType: string;
@@ -19,6 +20,7 @@ export default model<fileMapping>(
 		internalFileName: String,
 		filePath: String,
 		mimeType: String,
+		head: { type: Boolean, default: false },
 		size: Number,
 		userId: String,
 	})
