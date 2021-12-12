@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "target": "es2017",
-    "module": "commonjs",
+    "module": "AMD",
     "lib": ["dom", "es6", "es2017", "esnext.asynciterable"],
     "skipLibCheck": true,
     "sourceMap": true,
-    "outDir": "./dist",
+    "outFile": "./index.js",
     "moduleResolution": "node",
     "removeComments": true,
     "noImplicitAny": true,

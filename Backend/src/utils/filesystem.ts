@@ -481,7 +481,7 @@ class FileSystem {
 		folderParts.pop();
 		this.createFolderPathRecursively("", folderParts, false, callback);
 	}
-	public readUserFile(id: string, name: string, path: string): Promise<string> {
+	public readUserFile(id: string, name: string, path: string): Promise<Buffer> {
 		return new Promise((res) => {
 			const stream = fs.createReadStream(
 				buildPath(
@@ -491,14 +491,15 @@ class FileSystem {
 			);
 			stream.on("error", (err) => {
 				console.log(err);
-				res("");
+				res(Buffer.from(""));
 			});
 			let chunks: Buffer[] = [];
 			stream.on("data", (chunk) => {
 				chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
 			});
 			stream.on("end", () => {
-				res(Buffer.concat(chunks).toString());
+				console.log("end");
+				res(Buffer.concat(chunks));
 			});
 		});
 	}

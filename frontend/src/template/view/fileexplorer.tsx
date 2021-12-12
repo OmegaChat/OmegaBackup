@@ -4,6 +4,16 @@ import backend from "../shared/url";
 import { format } from "timeago.js";
 import Versions from "../components/versions";
 
+export const replaceLast = (str: string, find: string, replace: string) => {
+	const index = str.lastIndexOf(find);
+	if (index > -1) {
+		return (
+			str.substring(0, index) + replace + str.substring(index + find.length)
+		);
+	}
+	return str;
+};
+
 interface file {
 	path: string;
 	isFile: Boolean;
@@ -130,12 +140,24 @@ const FileExplorer = () => {
 									<Versions versions={selectedFileDetails.versions} />
 								) : (
 									<h3 className="selected__versions">
-										{selectedFileDetails.versions.length} versions
+										No File History Available
 									</h3>
 								)}
 							</div>
 							<div className="selected__download">
-								<button className="download__button">Download</button>
+								<a
+									href={
+										backend +
+										"/v1/files/open/" +
+										replaceLast(
+											encodeURIComponent(selectedFileDetails.head.path),
+											"%2F",
+											"/"
+										)
+									}
+								>
+									<button className="download__button">Download</button>
+								</a>
 							</div>
 						</div>
 					) : undefined

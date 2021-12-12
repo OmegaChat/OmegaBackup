@@ -4,20 +4,20 @@ import auth from "../../../utils/auth";
 import filesystem from "../../../utils/filesystem";
 
 export default (
-	req: FastifyRequest<{ Params: { file: string } }>,
+	req: FastifyRequest<{ Params: { "*": string } }>,
 	res: FastifyReply
 ) => {
 	auth(req).then((user) => {
 		if (user) {
-			if (typeof req.params.file === "string") {
+			if (typeof req.params["*"] === "string") {
 				fileMapping
 					.findOne({
-						filePath: req.params.file,
+						internalFileName: req.params["*"],
 					})
 					.then((file) => {
 						if (file) {
 							filesystem
-								.readUserFile(user._id, user.name, file.filePath)
+								.readUserFile(user._id, user.name, file.internalFileName)
 								.then((data) => {
 									res.header("content-type", file.mimeType).send(data);
 								});

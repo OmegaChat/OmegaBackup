@@ -1,4 +1,6 @@
 import { useState } from "react";
+import backend from "../shared/url";
+import { replaceLast } from "../view/fileexplorer";
 
 const forceTwoDigits = (number: number) => {
 	return number < 10 ? `0${number}` : number;
@@ -19,13 +21,23 @@ const VersionDate = (props: {
 					{props.items.map((item) => {
 						const date = new Date(item.created);
 						return (
-							<p className="version__item">
-								{forceTwoDigits(date.getHours()) +
-									":" +
-									forceTwoDigits(date.getMinutes()) +
-									":" +
-									forceTwoDigits(date.getSeconds())}
-							</p>
+							<a
+								target="_blank"
+								rel="noreferrer"
+								href={
+									backend +
+									"/v1/files/open/" +
+									replaceLast(encodeURIComponent(item.path), "%2F", "/")
+								}
+							>
+								<p className="version__item">
+									{forceTwoDigits(date.getHours()) +
+										":" +
+										forceTwoDigits(date.getMinutes()) +
+										":" +
+										forceTwoDigits(date.getSeconds())}
+								</p>
+							</a>
 						);
 					})}
 				</div>
