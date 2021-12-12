@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "../../assets/scss/files/fileExplorer.scss";
 import backend from "../shared/url";
 import { format } from "timeago.js";
+import Versions from "../components/versions";
 
 interface file {
 	path: string;
@@ -123,9 +124,16 @@ const FileExplorer = () => {
 							<p className="selected__lastversion">
 								{format(selectedFileDetails.head.created)}
 							</p>
-							<h3 className="selected__versions">
-								{selectedFileDetails.versions.length} versions
-							</h3>
+
+							<div>
+								{selectedFileDetails.versions.length ? (
+									<Versions versions={selectedFileDetails.versions} />
+								) : (
+									<h3 className="selected__versions">
+										{selectedFileDetails.versions.length} versions
+									</h3>
+								)}
+							</div>
 							<div className="selected__download">
 								<button className="download__button">Download</button>
 							</div>

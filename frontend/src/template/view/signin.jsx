@@ -56,7 +56,7 @@ const SignIn = (props, media) => {
 									}).then((res) =>
 										res.json().then((data) => {
 											if (data.ok) {
-												window.location.href = "/app";
+												window.location.href = "/look";
 											} else {
 												setError(data.error);
 											}

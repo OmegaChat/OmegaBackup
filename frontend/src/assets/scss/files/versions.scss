@@ -1,0 +1,23 @@
+.versions {
+	color: white;
+	max-height: 700px;
+	overflow: scroll;
+}
+
+.versions__version {
+	color: rgb(182, 182, 182);
+}
+
+.version {
+	color: white;
+}
+
+.version__date {
+	cursor: pointer;
+}
+
+.version__item {
+	cursor: pointer;
+	margin-left: 20px;
+	color: rgb(190, 190, 190);
+}

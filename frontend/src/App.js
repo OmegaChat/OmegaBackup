@@ -10,6 +10,7 @@ import Signin from "./template/view/signin";
 import Signup from "./template/view/SignUp.tsx";
 import Plans from "./template/view/plans";
 import FileExplorer from "./template/view/fileexplorer.tsx";
+import Look from "./template/view/look";
 
 function App(props) {
 	return (
@@ -36,6 +37,9 @@ function getView(props) {
 		}
 		case "app": {
 			return <FileExplorer></FileExplorer>;
+		}
+		case "look": {
+			return <Look />;
 		}
 		default: {
 			return <Welcome></Welcome>;

@@ -85,7 +85,7 @@ const SignUp = () => {
 												if (!data.ok) {
 													setErrorMessage(data.error);
 												} else {
-													window.location.href = "/app";
+													window.location.href = "/look";
 												}
 											});
 										});
