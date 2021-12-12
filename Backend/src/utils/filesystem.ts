@@ -76,12 +76,6 @@ class FileSystem {
 		path: string
 	): Promise<{ path: string; isFile: boolean; name: string }[]> {
 		return new Promise((res) => {
-			console.log(
-				buildPath(
-					this.getRandomDrive(),
-					genUserFolder(id, name) + makeSlashPath(path)
-				)
-			);
 			fs.readdir(
 				buildPath(
 					this.getRandomDrive(),
@@ -160,7 +154,6 @@ class FileSystem {
 		}
 	}
 	private checkDrives(): void {
-		console.log(this.primaryDrives, this.operationalDrives);
 		const newPrimaryDrives: string[] = [];
 		const newOperationalDrives: string[] = [];
 		getVolumes().then((volumes) => {
@@ -498,7 +491,6 @@ class FileSystem {
 				chunks.push(typeof chunk === "string" ? Buffer.from(chunk) : chunk);
 			});
 			stream.on("end", () => {
-				console.log("end");
 				res(Buffer.concat(chunks));
 			});
 		});

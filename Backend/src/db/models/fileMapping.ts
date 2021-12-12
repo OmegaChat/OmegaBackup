@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-interface fileMapping {
+export interface fileMapping {
 	_id: string;
 	created: Date;
 	fileName: string;

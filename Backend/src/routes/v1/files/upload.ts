@@ -30,7 +30,6 @@ export default (req: FastifyRequest, res: FastifyReply) => {
 							fileMapping
 								.findOne({ filePath: body.path, head: true })
 								.then((file) => {
-									console.log(file);
 									fileMapping.create({
 										created: new Date(),
 										fileName: getFileName(body.path),
@@ -54,7 +53,7 @@ export default (req: FastifyRequest, res: FastifyReply) => {
 												head: false,
 											})
 											.then((c) => {
-												console.log(c);
+												return c;
 											});
 									}
 								});

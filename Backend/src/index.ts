@@ -1,8 +1,9 @@
 import fastify from "fastify";
 import { getVolumes } from "./utils/getVolumes";
 import applyRoutes from "./routes";
-import cors from "fastify-cors"
+import cors from "fastify-cors";
 import db from "./db";
+import registerWorker from "./utils/registerWorker";
 db;
 
 const app = fastify({ bodyLimit: 52428800 });
@@ -31,6 +32,7 @@ getVolumes().then((volumes) => {
 			if (err) {
 				console.log(err);
 			} else {
+				registerWorker();
 				console.log("omegabackup is running on", address);
 			}
 		});
