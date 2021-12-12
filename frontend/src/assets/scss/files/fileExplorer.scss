@@ -83,3 +83,40 @@
 .download__button:hover {
 	background-color: rgb(99, 224, 255);
 }
+
+.content__search {
+	z-index: 999;
+	position: absolute;
+	text-align: left;
+	right: 30px;
+	top: 90px;
+}
+
+.search__input::placeholder {
+	color: black;
+}
+.search__input {
+	width: 200px;
+	background-color: rgb(189, 189, 189);
+	border: 0px;
+	border-radius: 5px;
+	padding: 10px;
+	outline: none;
+}
+
+.search__results {
+	width: 220px;
+	display: flex;
+	flex-direction: column;
+}
+
+.results__result {
+	cursor: pointer;
+	padding: 10px;
+	background-color: rgb(92, 92, 92);
+	transition: background-color 0.1s;
+	color: white;
+}
+.results__result:hover {
+	background-color: rgb(134, 134, 134);
+}

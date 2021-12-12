@@ -39,10 +39,34 @@ const FileExplorer = () => {
 	const [path, setPath] = useState<string>("");
 	const [cursorPosition, setCursorPosition] = useState<number>(0);
 	const [state, setState] = useState<number>(0);
-	const [showFile, setShowFile] = useState<file | undefined>(undefined);
+	const [showFile, setShowFile] = useState<string | undefined>(undefined);
 	const [selectedFileDetails, setSelectedFileDetails] = useState<
 		fileInfo | undefined
 	>(undefined);
+	const [search, setSearch] = useState<string>("");
+	const [searchResults, setSearchResults] = useState<
+		{ name: string; id: string; path: string }[]
+	>([]);
+	useEffect(() => {
+		if (search) {
+			fetch(backend + "/v1/files/search", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					query: search,
+				}),
+				credentials: "include",
+			}).then((r) => {
+				r.json().then((res) => {
+					if (res.ok) {
+						setSearchResults(res.result);
+					}
+				});
+			});
+		}
+	}, [search]);
 	useEffect(() => {
 		fetch(backend + "/v1/files/list", {
 			method: "POST",
@@ -76,7 +100,7 @@ const FileExplorer = () => {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					path: showFile.path,
+					path: showFile,
 				}),
 			}).then((r) => {
 				r.json().then((data) => {
@@ -87,10 +111,37 @@ const FileExplorer = () => {
 					}
 				});
 			});
+		} else {
+			setSearchResults([]);
 		}
 	}, [showFile]);
 	return (
 		<div className="content">
+			<div className="content__search">
+				<input
+					onChange={({ target: { value } }) => {
+						setSearch(value);
+					}}
+					placeholder="Search"
+					type="text"
+					className="search__input"
+				></input>
+				{searchResults.length > 0 ? (
+					<div className="search__results">
+						{searchResults.map((r) => (
+							<div
+								className="results__result"
+								onClick={() => {
+									setSearchResults([]);
+									setShowFile(r.path);
+								}}
+							>
+								{r.name}
+							</div>
+						))}
+					</div>
+				) : undefined}
+			</div>
 			<h1 className="content__title">File Explorer</h1>
 			<p className="errorMessage">{error}</p>
 			<div className="content__rows">
@@ -104,7 +155,7 @@ const FileExplorer = () => {
 												<p
 													onClick={() => {
 														if (file.isFile) {
-															setShowFile(file);
+															setShowFile(file.path);
 														} else {
 															setShowFile(undefined);
 															setCursorPosition(rowIndex);
@@ -146,6 +197,8 @@ const FileExplorer = () => {
 							</div>
 							<div className="selected__download">
 								<a
+									target="_blank"
+									rel="noopener noreferrer"
 									href={
 										backend +
 										"/v1/files/open/" +

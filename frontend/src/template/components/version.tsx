@@ -31,11 +31,7 @@ const VersionDate = (props: {
 								}
 							>
 								<p className="version__item">
-									{forceTwoDigits(date.getHours()) +
-										":" +
-										forceTwoDigits(date.getMinutes()) +
-										":" +
-										forceTwoDigits(date.getSeconds())}
+									{new Date(item.created).toLocaleTimeString()}
 								</p>
 							</a>
 						);
