@@ -48,7 +48,7 @@ const FileExplorer = () => {
 		{ name: string; id: string; path: string }[]
 	>([]);
 	useEffect(() => {
-		if (search) {
+		if (search.length > 0) {
 			fetch(backend + "/v1/files/search", {
 				method: "POST",
 				headers: {
@@ -65,6 +65,8 @@ const FileExplorer = () => {
 					}
 				});
 			});
+		} else {
+			setSearchResults([]);
 		}
 	}, [search]);
 	useEffect(() => {
@@ -111,8 +113,6 @@ const FileExplorer = () => {
 					}
 				});
 			});
-		} else {
-			setSearchResults([]);
 		}
 	}, [showFile]);
 	return (
