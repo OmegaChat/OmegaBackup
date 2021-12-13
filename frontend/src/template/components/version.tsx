@@ -2,9 +2,9 @@ import { useState } from "react";
 import backend from "../shared/url";
 import { replaceLast } from "../view/fileexplorer";
 
-const forceTwoDigits = (number: number) => {
-	return number < 10 ? `0${number}` : number;
-};
+// const forceTwoDigits = (number: number) => {
+// 	return number < 10 ? `0${number}` : number;
+// };
 
 const VersionDate = (props: {
 	date: string;
@@ -13,8 +13,15 @@ const VersionDate = (props: {
 	const [shown, setShown] = useState(false);
 	return (
 		<div className="version">
+			<p
+				className={
+					"version__toggle" + (shown ? " version__toggle--toggled" : "")
+				}
+			>
+				&gt;
+			</p>
 			<p className="version__date" onClick={() => setShown(!shown)}>
-				{(shown ? "v " : "> ") + props.date}
+				{props.date}
 			</p>
 			{shown ? (
 				<div className="version__items">
@@ -30,9 +37,7 @@ const VersionDate = (props: {
 									replaceLast(encodeURIComponent(item.path), "%2F", "/")
 								}
 							>
-								<p className="version__item">
-									{new Date(item.created).toLocaleTimeString()}
-								</p>
+								<p className="version__item">{date.toLocaleTimeString()}</p>
 							</a>
 						);
 					})}

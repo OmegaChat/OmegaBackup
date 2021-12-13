@@ -11,6 +11,7 @@ import Signup from "./template/view/SignUp.tsx";
 import Plans from "./template/view/plans";
 import FileExplorer from "./template/view/fileexplorer.tsx";
 import Look from "./template/view/look";
+import VersionDate from "./template/components/version";
 
 function App(props) {
 	return (

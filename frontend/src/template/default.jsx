@@ -1,3 +1,4 @@
+import "../assets/scss/files/layout.scss";
 import darkIcon from "../assets/media/darkmode.svg";
 import lightIcon from "../assets/media/lightmode.svg";
 import logoWhite from "../assets/media/logowhite.svg";
@@ -8,7 +9,7 @@ const def = (props) => {
 			<div className="placeholder"></div>
 			<a href="/">
 				<div className="logo">
-					<img className="logo__logo" alt="logo" src={logoWhite}></img>
+					<img className="logo__logo" alt="logo" src={logoWhite} />
 				</div>
 			</a>
 			<nav>
