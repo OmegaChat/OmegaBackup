@@ -29,7 +29,7 @@
 	max-width: 300px;
 	padding: 30px;
 	background-color: rgb(95, 95, 95);
-	// animation: showItem 0.3s;
+	animation: showItem 0.3s;
 	border-radius: 10px;
 }
 
@@ -66,7 +66,7 @@
 .row__item {
 	color: white;
 	transition: background-color 0.3s;
-	animation: showElem 0.5s;
+	// animation: showElem 0.5s;
 	cursor: pointer;
 	background-color: rgb(53, 53, 53);
 	padding: 10px;
