@@ -16,6 +16,7 @@ export default (
 					})
 					.then((files) => {
 						if (files.length > 0) {
+							console.log(files);
 							const matches = files.filter((file) =>
 								file.fileName.includes(req.body.query)
 							);
