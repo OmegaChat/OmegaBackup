@@ -40,7 +40,7 @@ function getView(props) {
 			return <FileExplorer></FileExplorer>;
 		}
 		default: {
-			return <Look/>;
+			return <Look></Look>;
 		}
 	}
 }
