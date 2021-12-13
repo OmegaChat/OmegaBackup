@@ -1,8 +1,12 @@
 import fileMapping from "../db/models/fileMapping";
+import user from "../db/models/user";
+import filesystem from "./filesystem";
 
 interface simpleMapping {
 	_id: string;
 	created: number;
+	userId: string;
+	path: string;
 }
 
 const filterMappings = (mappings: simpleMapping[], max: number) => {
@@ -19,6 +23,15 @@ const filterMappings = (mappings: simpleMapping[], max: number) => {
 			})
 			.sort((a, b) => a.sinceLast - b.sinceLast);
 		fileMapping.findByIdAndDelete(orderedSinceLast[0]._id).then((e) => {
+			user.findById(orderedSinceLast[0].userId).then((user) => {
+				if (user) {
+					filesystem.deleteUserFile(
+						user._id,
+						user.name,
+						orderedSinceLast[0].path
+					);
+				}
+			});
 			return e;
 		});
 		mappings.splice(
@@ -57,13 +70,33 @@ const worker = () => {
 								const created = new Date(mapping.created).getTime();
 								const diff = now - mapping.created.getTime();
 								if (diff < 3600000) {
-									lastHour.push({ _id: mapping._id, created });
+									lastHour.push({
+										_id: mapping._id,
+										created,
+										userId: mapping.userId,
+										path: mapping.internalFileName,
+									});
 								} else if (diff < 86400000) {
-									lastDay.push({ _id: mapping._id, created });
+									lastDay.push({
+										_id: mapping._id,
+										created,
+										userId: mapping.userId,
+										path: mapping.internalFileName,
+									});
 								} else if (diff < 2592000000) {
-									lastMonth.push({ _id: mapping._id, created });
+									lastMonth.push({
+										_id: mapping._id,
+										created,
+										userId: mapping.userId,
+										path: mapping.internalFileName,
+									});
 								} else {
-									lastUnknown.push({ _id: mapping._id, created });
+									lastUnknown.push({
+										_id: mapping._id,
+										created,
+										userId: mapping.userId,
+										path: mapping.internalFileName,
+									});
 								}
 							});
 							filterMappings(lastHour, 6);

@@ -127,6 +127,18 @@ class FileSystem {
 			);
 		});
 	}
+	public deleteUserFile(id: string, name: string, path: string) {
+		this.getWritableDrives().forEach((drive) => {
+			fs.rm(
+				buildPath(drive, genUserFolder(id, name) + makeSlashPath(path)),
+				(err) => {
+					if (err) {
+						console.log(err);
+					}
+				}
+			);
+		});
+	}
 	private cloneDrive(target: string) {
 		if (this.operationalDrives.includes(target)) {
 			getFolders(buildPath(this.getRandomDrive(), "")).then((folders) => {
