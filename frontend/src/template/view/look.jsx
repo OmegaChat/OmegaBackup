@@ -6,11 +6,7 @@ import backend from "../shared/url";
 const Look = () => {
 	useEffect(() => {
 		fetch(backend + "/v1/user/loginStatus").then((d) => {
-			if (d.status === 200) {
-				setLoggedIn(true);
-			} else {
-				setLoggedIn(false);
-			}
+			setLoggedIn(d.status === 200);
 		});
 	}, []);
 	const [loggedIn, setLoggedIn] = useState(false);
