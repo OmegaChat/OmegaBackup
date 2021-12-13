@@ -39,8 +39,8 @@ class FileSystem {
 	private blockedDrives: string[] = [];
 	private optimalDriveArray: string[] = [];
 	private getRandomDrive(): string {
-		return this.optimalDriveArray[
-			Math.floor(Math.random() * this.optimalDriveArray.length)
+		return this.primaryDrives[
+			Math.floor(Math.random() * this.primaryDrives.length)
 		];
 	}
 	private cloneFolder(source: string, target: string, path: string) {
@@ -273,7 +273,6 @@ class FileSystem {
 		}
 		this.calculateOptimalDriveArray();
 		this.operationalDrives.forEach((drive) => {
-			console.log("cloning drive", drive);
 			this.cloneDrive(drive);
 		});
 		console.log("Primary drives:", this.primaryDrives.join(", "));
