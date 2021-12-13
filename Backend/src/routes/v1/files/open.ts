@@ -12,6 +12,7 @@ export default (
 			if (typeof req.params["*"] === "string") {
 				fileMapping
 					.findOne({
+						userId: user._id,
 						internalFileName: req.params["*"],
 					})
 					.then((file) => {
