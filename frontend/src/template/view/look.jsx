@@ -5,7 +5,9 @@ import backend from "../shared/url";
 
 const Look = () => {
 	useEffect(() => {
-		fetch(backend + "/v1/user/loginStatus").then((d) => {
+		fetch(backend + "/v1/user/loginStatus", {
+			credentials: "include",
+		}).then((d) => {
 			setLoggedIn(d.status === 200);
 		});
 	}, []);
