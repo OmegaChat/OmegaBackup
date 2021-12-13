@@ -39,10 +39,8 @@ function getView(props) {
 			return <FileExplorer></FileExplorer>;
 		}
 		case "look": {
-			return <Look />;
-		}
 		default: {
-			return <Welcome></Welcome>;
+			return <Look/>;
 		}
 	}
 }
