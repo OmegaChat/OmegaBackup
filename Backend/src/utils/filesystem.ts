@@ -82,6 +82,7 @@ class FileSystem {
 					genUserFolder(id, name) + makeSlashPath(path)
 				),
 				(err, files) => {
+					console.log(files);
 					if (err) {
 						console.log(err);
 						res([]);
