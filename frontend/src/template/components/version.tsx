@@ -29,6 +29,7 @@ const VersionDate = (props: {
 						const date = new Date(item.created);
 						return (
 							<a
+								key={item.path}
 								target="_blank"
 								rel="noreferrer"
 								href={

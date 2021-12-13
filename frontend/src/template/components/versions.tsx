@@ -35,7 +35,7 @@ const Versions = (props: props) => {
 			<h2>Versions</h2>
 			{Object.keys(dates).map((date) => {
 				return (
-					<div className="versions__date">
+					<div className="versions__date" key={date}>
 						<VersionDate date={date} items={dates[date]} />
 					</div>
 				);
