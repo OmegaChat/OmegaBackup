@@ -14,10 +14,33 @@
 
 .version__date {
 	cursor: pointer;
+	display: inline-block;
+}
+
+@keyframes comeDown {
+	from {
+		transform: translateY(-100%);
+	}
+	to {
+		transform: translateY(0);
+	}
 }
 
 .version__item {
+	animation: comeDown 0.3s;
 	cursor: pointer;
 	margin-left: 20px;
 	color: rgb(190, 190, 190);
+	margin-top: 0px;
+}
+
+.version__toggle {
+	cursor: pointer;
+	display: inline-block;
+	margin-right: 10px;
+	transition: transform 0.2s;
+}
+
+.version__toggle--toggled {
+	transform: rotate(90deg);
 }

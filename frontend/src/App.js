@@ -11,6 +11,7 @@ import Signup from "./template/view/SignUp.tsx";
 import Plans from "./template/view/plans";
 import FileExplorer from "./template/view/fileexplorer.tsx";
 import Look from "./template/view/look";
+import VersionDate from "./template/components/version";
 
 function App(props) {
 	return (
@@ -40,6 +41,14 @@ function getView(props) {
 		}
 		case "look": {
 			return <Look />;
+		}
+		case "test": {
+			return (
+				<VersionDate
+					date="Today"
+					items={[{ created: 1020000 }, { created: 1002002 }]}
+				/>
+			);
 		}
 		default: {
 			return <Welcome></Welcome>;

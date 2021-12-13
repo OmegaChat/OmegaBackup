@@ -27,6 +27,7 @@
 	max-width: 300px;
 	padding: 30px;
 	background-color: rgb(95, 95, 95);
+	animation: showItem 0.3s;
 	border-radius: 10px;
 }
 
@@ -38,9 +39,32 @@
 	background-color: rgb(73, 73, 73);
 }
 
+@keyframes showItem {
+	0% {
+		opacity: 0;
+		transform: translateX(-100%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes showElem {
+	0% {
+		opacity: 0;
+		transform: translateY(-100%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
 .row__item {
 	color: white;
 	transition: background-color 0.3s;
+	animation: showElem 0.5s;
 	cursor: pointer;
 	background-color: rgb(53, 53, 53);
 	padding: 10px;
