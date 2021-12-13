@@ -19,15 +19,17 @@
 
 @keyframes comeDown {
 	from {
+		opacity: 0;
 		transform: translateY(-100%);
 	}
 	to {
+		opacity: 1;
 		transform: translateY(0);
 	}
 }
 
 .version__item {
-	animation: comeDown 0.3s;
+	animation: comeDown 0.3s ease;
 	cursor: pointer;
 	margin-left: 20px;
 	color: rgb(190, 190, 190);
