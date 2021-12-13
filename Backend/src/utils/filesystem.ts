@@ -57,15 +57,16 @@ class FileSystem {
 		});
 		getFiles(buildPath(source, path + "/")).then((files) => {
 			files.forEach((file) => {
-				fs.readFile(buildPath(source, path + "/" + file), (err, data) => {
-					if (err) {
-						console.log(err);
+				const readStream = fs.createReadStream(
+					buildPath(source, path + "/" + file)
+				);
+				const writeStream = fs.createWriteStream(
+					buildPath(target, path + "/" + file)
+				);
+				readStream.on("data", (data) => {
+					if (data) {
+						writeStream.write(data);
 					}
-					fs.writeFile(buildPath(target, path + "/" + file), data, (err) => {
-						if (err) {
-							console.log(err);
-						}
-					});
 				});
 			});
 		});
@@ -187,6 +188,25 @@ class FileSystem {
 					!this.blockedDrives.includes(volume)
 				) {
 					getFiles(buildPath(volume, "")).then((files) => {
+						if (files.includes(".omega_lastbackup")) {
+							fs.readFile(
+								buildPath(volume, ".omega_lastbackup"),
+								(err, data) => {
+									if (err) {
+										console.log(err);
+									} else if (data) {
+										if (
+											new Date(data.toString()).getTime() ===
+											this.latestDriveBackup
+										) {
+											this.primaryDrives.push(volume);
+										} else {
+											this.operationalDrives.push(volume);
+										}
+									}
+								}
+							);
+						}
 						if (files.includes("omega-allow.txt")) {
 							this.operationalDrives.push(volume);
 						}
@@ -348,6 +368,7 @@ class FileSystem {
 	}
 	private updateLastBackup(drive: string): void {
 		const now = new Date().toString();
+		this.latestDriveBackup = new Date(now).getTime();
 		if (this.primaryDrives.includes(drive)) {
 			fs.writeFile(buildPath(drive, "/.omega_lastbackup"), now, (err) => {
 				if (err) {
