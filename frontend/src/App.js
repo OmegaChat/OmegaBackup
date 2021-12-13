@@ -42,14 +42,6 @@ function getView(props) {
 		case "look": {
 			return <Look />;
 		}
-		case "test": {
-			return (
-				<VersionDate
-					date="Today"
-					items={[{ created: 1020000 }, { created: 1002002 }]}
-				/>
-			);
-		}
 		default: {
 			return <Welcome></Welcome>;
 		}
