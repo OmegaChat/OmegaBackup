@@ -31,7 +31,7 @@ const Look = () => {
 					{loggedIn ? "downloading our client" : "this link"}
 				</a>
 				{loggedIn ? " or proceed to " : " or log in "}
-				<a className="todo__link" href={loggedIn ? "/app" : "/signup"}>
+				<a className="todo__link" href={loggedIn ? "/app" : "/signin"}>
 					{loggedIn ? " view your backups" : "using this link."}
 				</a>
 				.
