@@ -1,6 +1,6 @@
-import mac from "../../assets/downloads/omegabackup_mac";
-import windows from "../../assets/downloads/omegabackup.exe";
-import linux from "../../assets/downloads/omegabackup_unix";
+import mac from "../../assets/downloads/omegabackup_mac.zip";
+import windows from "../../assets/downloads/omegabackup.zip";
+import linux from "../../assets/downloads/omegabackup_unix.zip";
 
 function getOS() {
 	console.log(navigator.userAgent);
