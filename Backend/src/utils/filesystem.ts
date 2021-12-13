@@ -273,6 +273,7 @@ class FileSystem {
 		}
 		this.calculateOptimalDriveArray();
 		this.operationalDrives.forEach((drive) => {
+			console.log("cloning drive", drive);
 			this.cloneDrive(drive);
 		});
 		console.log("Primary drives:", this.primaryDrives.join(", "));
