@@ -23,6 +23,7 @@ const filterMappings = (mappings: simpleMapping[], max: number) => {
 			})
 			.sort((a, b) => a.sinceLast - b.sinceLast);
 		fileMapping.findByIdAndDelete(orderedSinceLast[0]._id).then((e) => {
+			console.log("deleted something");
 			user.findById(orderedSinceLast[0].userId).then((user) => {
 				if (user) {
 					filesystem.deleteUserFile(
