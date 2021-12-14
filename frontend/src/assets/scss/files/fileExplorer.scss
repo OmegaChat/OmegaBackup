@@ -47,6 +47,8 @@
 			scroll-snap-align: start;
 			height: calc(100vh - 280px);
 			text-align: left;
+			overflow-y: scroll;
+			scrollbar-width: none !important;
 			max-width: 300px;
 			padding: 30px;
 			background-color: rgb(95, 95, 95);
