@@ -12,6 +12,7 @@ interface simpleMapping {
 const filterMappings = (mappings: simpleMapping[], max: number) => {
 	if (mappings.length > max) {
 		let compareElem = 0;
+		console.log(mappings);
 		const orderedSinceLast = mappings
 			.map((elem) => {
 				const mapping = {
@@ -40,6 +41,7 @@ const filterMappings = (mappings: simpleMapping[], max: number) => {
 			1
 		);
 		if (orderedSinceLast.length > max) {
+			console.log("rerunning", mappings);
 			filterMappings(mappings, max);
 		}
 	}
