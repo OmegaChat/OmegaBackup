@@ -9,7 +9,11 @@ db;
 const app = fastify({ bodyLimit: 52428800 });
 
 app.register(cors, {
-	origin: ["http://backup.omega.com", "http://omega.backup.com:3000"],
+	origin: [
+		"http://backup.omega.com",
+		"http://omega.backup.com:3000",
+		"http://192.168.100.50",
+	],
 	credentials: true,
 });
 
