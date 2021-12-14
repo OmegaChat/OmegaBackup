@@ -12,7 +12,6 @@ interface simpleMapping {
 const filterMappings = (mappings: simpleMapping[], max: number) => {
 	if (mappings.length > max) {
 		let compareElem = 0;
-		console.log(mappings);
 		const orderedSinceLast = mappings
 			.map((elem) => {
 				const mapping = {
@@ -41,7 +40,6 @@ const filterMappings = (mappings: simpleMapping[], max: number) => {
 			1
 		);
 		if (orderedSinceLast.length > max) {
-			console.log("rerunning", mappings);
 			filterMappings(mappings, max);
 		}
 	}
@@ -55,7 +53,7 @@ const worker = () => {
 		if (fileMappings.length > 0) {
 			fileMappings.forEach((fmp) => {
 				fileMapping.find(
-					{ head: false, filePath: fmp.filePath },
+					{ head: false, filePath: fmp.filePath, userId: fmp.userId },
 					(err, mappings) => {
 						if (err) {
 							console.log(err);
