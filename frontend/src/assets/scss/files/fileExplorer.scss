@@ -37,6 +37,8 @@
 	.content__rows {
 		margin-top: 40px;
 		overflow: scroll;
+		scrollbar-width: none !important;
+		// scrollbar-width: none;
 		scroll-snap-type: x mandatory;
 		gap: 30px;
 		display: flex;
@@ -64,6 +66,27 @@
 				min-width: 75 px;
 				color: black;
 				background-color: rgb(73, 192, 221);
+			}
+			.selected__lastversion {
+				margin: 0;
+				color: rgb(196, 196, 196);
+			}
+			.selected__filename {
+				margin: 0;
+			}
+			.selected__download {
+				position: absolute;
+				bottom: 30px;
+				.download__button {
+					width: 200px;
+					background-color: rgb(138, 232, 255);
+					border-width: 0px;
+					padding: 10px;
+					border-radius: 10px;
+					color: black;
+					transition: background-color 0.3s;
+					cursor: pointer;
+				}
 			}
 		}
 		.rows__nocontent {
@@ -108,34 +131,13 @@
 
 
 
-.selected__download {
-	position: absolute;
-	bottom: 30px;
-}
 
-.download__button {
-	width: 200px;
-	background-color: rgb(138, 232, 255);
-	border-width: 0px;
-	padding: 10px;
-	border-radius: 10px;
-	color: black;
-	transition: background-color 0.3s;
-	cursor: pointer;
-}
 
 .rows__selected {
 	color: white;
 	min-width: 200px;
 	position: relative;
 	background-color: rgb(0, 98, 122);
-}
-.selected__lastversion {
-	margin: 0;
-	color: rgb(196, 196, 196);
-}
-.selected__filename {
-	margin: 0;
 }
 
 .search__results {
