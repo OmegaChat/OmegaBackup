@@ -2,7 +2,7 @@ import axios from "axios";
 import { Buffer } from "buffer";
 
 const replaceAll = (str: string, find: string, target: string) => {
-	return str.split(find).join(target);
+	return str.split(find).join(target); 
 };
 
 export default (
