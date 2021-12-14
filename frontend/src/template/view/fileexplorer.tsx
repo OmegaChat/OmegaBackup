@@ -181,7 +181,9 @@ const FileExplorer = () => {
 				{showFile ? (
 					selectedFileDetails ? (
 						<div className="rows__row rows__selected">
-							<h1>{selectedFileDetails.head.fileName}</h1>
+							<h1 className="selected__filename">
+								{selectedFileDetails.head.fileName}
+							</h1>
 							<p className="selected__lastversion">
 								{format(selectedFileDetails.head.created)}
 							</p>

@@ -32,7 +32,7 @@ const Versions = (props: props) => {
 	});
 	return (
 		<div className="versions">
-			<h2>Versions</h2>
+			<h2 className="versions__version">Versions</h2>
 			{Object.keys(dates).map((date) => {
 				return (
 					<div className="versions__date" key={date}>
