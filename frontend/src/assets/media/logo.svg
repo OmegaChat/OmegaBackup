@@ -1,1 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg width="100%" height="100%" viewBox="0 0 1600 277" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><g transform="matrix(3.80208,0,0,3.80208,-1346.47,-767.582)"><text x="352.843px" y="242px" style="font-family:'Montserrat-Bold', 'Montserrat';font-weight:700;font-size:54px;">Om<tspan x="455.389px " y="242px ">e</tspan>ga</text><text x="560.581px" y="242px" style="font-family:'Montserrat-Bold', 'Montserrat';font-weight:700;font-size:54px;fill:#00b0f0;">Ba<tspan x="635.533px 667.231px 702.331px " y="242px 242px 242px ">cku</tspan>p</text><text x="352.843px" y="271.103px" style="font-family:'Montserrat-Bold', 'Montserrat';font-weight:700;font-size:18px;">b<tspan x="364.993px " y="271.103px ">y</tspan></text><text x="380.851px" y="271.103px" style="font-family:'Montserrat-Bold', 'Montserrat';font-weight:700;font-size:18px;fill:#00b0f0;">Om<tspan x="415.033px " y="271.103px ">e</tspan>gaChat</text></g></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1600 277" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(3.80208,0,0,3.80208,-1346.47,-767.582)">
+        <text x="352.843px" y="242px" style="font-family:'Montserrat-Bold', 'Montserrat';font-weight:700;font-size:54px;">Om<tspan x="455.389px " y="242px ">e</tspan>ga</text>
+        <text x="560.581px" y="242px" style="font-family:'Montserrat-Bold', 'Montserrat';font-weight:700;font-size:54px;fill:rgb(0,176,240);">Ba<tspan x="635.533px 667.231px 702.331px " y="242px 242px 242px ">cku</tspan>p</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-91.8478,-68.8244)">
+        <text x="90px" y="332px" style="font-family:'Montserrat-Bold', 'Montserrat';font-weight:700;font-size:68.437px;">b<tspan x="136.195px " y="332px ">y</tspan></text>
+        <text x="196.489px" y="332px" style="font-family:'Montserrat-Bold', 'Montserrat';font-weight:700;font-size:68.437px;fill:rgb(0,176,240);">Om<tspan x="326.452px " y="332px ">e</tspan>gaChat</text>
+    </g>
+</svg>
