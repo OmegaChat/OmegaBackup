@@ -43,9 +43,8 @@ a {
 		background-color: rgba(26, 28, 43, 0.6);
 		color: white;
 		button {
-			background-color: rgba(255, 255, 255, 0.5);
-			border-radius: 5px;
-			border: 2px solid rgb(26, 28, 43);
+			background-color: #00b0f0;
+			color: white;
 		}
 	}
 	.sign-container {
@@ -91,10 +90,8 @@ a {
 	.download-container {
 		background-color: rgba(255, 255, 255, 0.1);
 		button {
-			background-color: rgba(255, 255, 255, 0.2);
+			background-color: #00b0f0;
 			color: white;
-			border-radius: 5px;
-			border: 2px solid white;
 		}
 	}
 	.sign-container {
@@ -313,20 +310,25 @@ main {
 }
 
 .download-container {
-	width: 300px;
-	height: 100px;
+	width: 500px;
+	height: 200px;
 	display: flex;
 	flex-flow: column;
-	justify-content: space-between;
+	justify-content: center;
+	align-items: center;
 	.download-title {
 		font-size: 0.9rem;
 	}
 	.download-button {
-		margin: 0 20px 20px 20px;
-		padding: 10px;
 		cursor: pointer;
+		width: 300px;
+		padding: 20px;
+		background-color: #00b0f0;
+		color: white;
+		font-weight: bold;
+		border-width: 0px;
 		filter: opacity(100%);
-		transition: filter 0.2s;
+		transition: filter 0.2s ease-in-out;
 	}
 	.download-button:hover {
 		filter: opacity(70%);
