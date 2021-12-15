@@ -1,1 +1,1 @@
-export default "http://192.168.100.50:3005";
+export default "http://backup.omega.com:3005";
