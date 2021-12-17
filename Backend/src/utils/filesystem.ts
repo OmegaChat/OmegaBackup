@@ -68,6 +68,9 @@ class FileSystem {
 						writeStream.write(data);
 					}
 				});
+				readStream.on("end", () => {
+					writeStream.end();
+				});
 			});
 		});
 	}
