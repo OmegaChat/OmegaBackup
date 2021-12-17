@@ -57,9 +57,12 @@ class FileSystem {
 		});
 		getFiles(buildPath(source, path + "/")).then((files) => {
 			files.forEach((file) => {
-				const filePath = buildPath(source, path + "/" + file);
-				const readStream = fs.createReadStream(filePath);
-				const writeStream = fs.createWriteStream(filePath);
+				const readStream = fs.createReadStream(
+					buildPath(source, path + "/" + file)
+				);
+				const writeStream = fs.createWriteStream(
+					buildPath(target, path + "/" + file)
+				);
 				readStream.on("data", (data) => {
 					if (data) {
 						writeStream.write(data);
